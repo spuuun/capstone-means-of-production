@@ -6,11 +6,11 @@ import UserManager from "../../modules/UserManager"
 class LoginForm extends Component {
 
     state = {
-        username: "",
-        password: "",
-        activeUserId: 0,
+        username: '',
+        password: null,
         remember: false,
-        loadingStatus: false
+        loadingStatus: false,
+        activeUserId: 0
     }
 
     componentDidMount() {
@@ -20,9 +20,8 @@ class LoginForm extends Component {
     handleFieldChange = evt => {
         const stateToChange = {};
         // code on line below is for when there is no 'remember me' checkbox
-        // stateToChange[evt.target.id] = evt.target.value
         evt.target.id === "remember" ? stateToChange[evt.target.id] = evt.target.checked : stateToChange[evt.target.id] = evt.target.value
-        this.setState(stateToChange);
+        this.setState(stateToChange)
     };
 
     setLocalAndSession() {
@@ -64,9 +63,12 @@ class LoginForm extends Component {
         this.setState({ loadingStatus: true })
         UserManager.getAllUsers()
             .then(users => {
+                console.log('getAllUsers results on login', users);
                 const currentUser = users.find(user => {
-                    return user.username === this.state.username && user.password === this.state.password
+                    return user.username === this.state.username
+                    // && user.password === this.state.password
                 })
+                console.log('currentUser', currentUser);
                 if (currentUser !== undefined) {
                     // Create the user and redirect user to her/his home
                     // this.setState({ activeUserId: currentUser.id, remember: this. })
@@ -82,6 +84,7 @@ class LoginForm extends Component {
                 }
             }
             )
+
     }
 
     render() {
@@ -114,20 +117,17 @@ class LoginForm extends Component {
                                 type="button"
                                 disabled={this.state.loadingStatus}
                                 onClick={this.handleLogin}
-
                             >Login</button>
                         </div>
                     </fieldset>
+                    <fieldset>
+                        <div>
+                            <Link to='/register'>
+                                <button type="button">register new user</button>
+                            </Link>
+                        </div>
+                    </fieldset>
                 </form>
-                <div>
-                    <button
-                        type="button"
-                    // onclick={RENDER MODAL} 
-                    //need to figure how modals work, 
-                    //where the registration modal/form component should live
-                    //and where/how to write the method to render it
-                    >register new user</button>
-                </div>
             </>
         )
     }

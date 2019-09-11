@@ -16,28 +16,43 @@ import RegisterForm from './auth/Register'
 
 class ApplicationViews extends Component {
 
+    state = {
+        activeUserId: 0
+    }
 
     isAuthenticated() {
         return sessionStorage.getItem('activeUser') !== null || localStorage.getItem('activeUser' !== null)
     }
 
     componentDidMount() {
-        const userInfo = JSON.parse(sessionStorage.getItem('activeUser'));
+        const userSessionInfo = JSON.parse(sessionStorage.getItem('activeUser'));
+        const userLocalInfo = JSON.parse(localStorage.getItem('activeUser'));
         if (this.isAuthenticated()) {
-            const userId = userInfo.activeUserId;
-            console.log(userId);
+            if (userSessionInfo !== null) {
+                const activeUserId = userSessionInfo.activeUserId;
+                this.setState({ activeUserId: activeUserId })
+            }
+            else {
+                const activeUserId = userLocalInfo.activeUserId
+                this.setState({ activeUserId: activeUserId })
+            }
         }
     }
 
     render() {
-        return (this.isAuthenticated() ? (
+        return (
             <React.Fragment>
-                <Route exact path="/" render={(props) => {
-                    return <>
-                        <Navbar />
-                        <Home {...props} />
-                    </>
-                }} />
+                <Route
+                    exact
+                    path="/"
+                    render={props => {
+                        return this.isAuthenticated() ? (
+                            <Home {...props} />
+                        ) : (
+                                <Redirect to="/login" />
+                            );
+                    }}
+                />
                 <Route exact path="/newuser" render={(props) => {
                     return <NewUserForm {...props} />
                 }} />
@@ -71,17 +86,13 @@ class ApplicationViews extends Component {
                 <Route path="/location" render={(props) => {
                     return <LocationList />
                 }} /> */}
+                <Route exact path="/login" render={(props) => {
+                    return <LoginForm {...props} />
+                }} />
+                <Route exact path="/register" render={(props) => {
+                    return <RegisterForm {...props} />
+                }} />
             </React.Fragment>
-        ) : (
-                <>
-                    <Route exact path="/login" render={(props) => {
-                        return <LoginForm {...props} />
-                    }} />
-                    <Route exact path="/register" render={(props) => {
-                        return <RegisterForm {...props} />
-                    }} />
-                </>
-            )
         )
     }
 }
