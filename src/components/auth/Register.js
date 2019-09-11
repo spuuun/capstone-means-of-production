@@ -1,7 +1,8 @@
 // import PropTypes from 'prop-types';
 import React, { Component } from 'react'
 import UserManager from '../../modules/UserManager'
-import LoginForm from './Login'
+// import LoginForm from './Login'
+import { Button, Header, Form } from 'semantic-ui-react'
 
 class Register extends Component {
 
@@ -101,14 +102,22 @@ class Register extends Component {
 
     render() {
         return (
-            <div className="backdrop"
-            // style={{ backdropStyle }}
-            >
-                <div className="modal"
-                //  style={{ modalStyle }}
-                >
-                    <fieldset>
-                        {this.props.children}
+            // <div className="backdrop"
+            // // style={{ backdropStyle }}
+            // >
+            //     <div className="modal"
+            //     //  style={{ modalStyle }}
+            //     >
+            <>
+                <Header as="h1">
+                    register!
+            </Header>
+                <Header as="h2">
+                    join the revolution of the working class
+            </Header>
+                <Form>
+                    {this.props.children}
+                    <Form.Field>
                         <label htmlFor="registerUsername">username</label>
                         <input
                             id="registerUsername"
@@ -116,6 +125,8 @@ class Register extends Component {
                             onChange={this.handleFieldChange}      //define this function!
                             placeholder="enter username"
                         />
+                    </Form.Field>
+                    <Form.Field>
                         <label htmlFor="email">email</label>
                         <input
                             id="email"
@@ -123,6 +134,8 @@ class Register extends Component {
                             onChange={this.handleFieldChange}      //define this function!
                             placeholder="enter your email"
                         />
+                    </Form.Field>
+                    <Form.Field>
                         <label htmlFor="registerPassword">password</label>
                         <input
                             id="registerPassword"
@@ -130,6 +143,8 @@ class Register extends Component {
                             onChange={this.handleFieldChange}      //define this function!
                             placeholder="enter a password"
                         />
+                    </Form.Field>
+                    <Form.Field>
                         <label htmlFor="confirmPassword">confirm password</label>
                         <input
                             id="confirmPassword"
@@ -137,22 +152,19 @@ class Register extends Component {
                             onChange={this.handleFieldChange}      //define this function!
                             placeholder="confirm your password"
                         />
-                    </fieldset>
-                    <div className="footer">
-                        <button
-                            type="button"
-                            disabled={this.state.loadingStatus}
-                            onClick={this.handleRegister}>register!</button>
-                        {/* define onRegister() method */}
-                        {/* <button onclick={this.props.onRegister}>register!</button>  */}
-                        {/* <button onClick={this.props.onClose}> */}
-                        {/* Close */}
-                        {/* </button> */}
-                    </div>
-                    <input type="checkbox" id="remember" onChange={this.handleFieldChange} />
-                    <label htmlFor="remember">Remember me</label>
-                </div>
-            </div>
+                    </Form.Field>
+                    <Form.Field>
+                        <div className="footer">
+                            <Button
+                                type="button"
+                                disabled={this.state.loadingStatus}
+                                onClick={this.handleRegister}>register!</Button>
+                        </div>
+                        <input type="checkbox" id="remember" onChange={this.handleFieldChange} />
+                        <label htmlFor="remember">Remember me</label>
+                    </Form.Field>
+                </Form>
+            </>
         );
     }
 }
