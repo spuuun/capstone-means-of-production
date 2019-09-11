@@ -3,20 +3,20 @@ import React, { Component } from 'react'
 export default class Home extends Component {
 
     state = {
-        activeUserId: this.props.activeUserId,
-        username: this.props.username
+        activeUserId: null,
+        username: ''
     }
-
     componentDidMount() {
         const activeUser = JSON.parse(sessionStorage.getItem('activeUser'))
-        // console.log(activeUserId);
-        this.setState({ activeUserId: activeUser.id })
+        this.setState({ activeUserId: activeUser.activeUserId, username: activeUser.username })
     }
     render() {
+        console.log(this.state);
         return (
             <div>
-                Welcome {this.props.username}!
-                This is the home/profile page for registered and logged in user!
+                <p> Welcome </p>
+                <h1>{this.state.username}!</h1>
+                <p> This is the home/profile page for registered and logged in user!</p>
             </div>
         )
     }

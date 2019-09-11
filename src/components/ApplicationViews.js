@@ -10,8 +10,10 @@ import React, { Component } from 'react'
 import Home from './home/Home'
 import NewUserForm from './users/NewUserForm'
 import LoginForm from './auth/Login'
-import Navbar from './nav/Navbar'
+// import Navbar from './nav/Navbar'
 import RegisterForm from './auth/Register'
+import ToolCard from './tools/ToolCard'
+import AddToolForm from './tools/AddToolForm'
 
 
 class ApplicationViews extends Component {
@@ -61,6 +63,12 @@ class ApplicationViews extends Component {
                 }} />
                 <Route exact path="/register" render={(props) => {
                     return <RegisterForm {...props} />
+                }} />
+                <Route exact path='/tools' render={(props) => {
+                    return <ToolCard {...props} />
+                }} />
+                <Route exact path='/addtool' render={(props) => {
+                    return <AddToolForm {...props} />
                 }} />
             </React.Fragment>
         )

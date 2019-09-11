@@ -70,7 +70,7 @@ class Register extends Component {
         // .then(user => {
         //     user.length > 0
         if (this.state.registerPassword === this.state.confirmPassword) {
-            console.log('props before newUser Obj created', this.state)
+            console.log('state before newUser Obj created', this.state)
             const newUser = {
                 username: this.state.registerUsername,
                 email: this.state.email,
