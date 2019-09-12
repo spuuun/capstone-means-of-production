@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // import { withRouter } from 'react-router-dom';
-import { Header, Form, Grid, Button, Select } from 'semantic-ui-react';
+import { Header, Form, Grid, Button, Select, Dropdown } from 'semantic-ui-react';
 // import { saveProfile } from '../APIManager/profiles';
 // import * as firebase from 'firebase/app';
 // import 'firebase/storage';
@@ -23,11 +23,10 @@ class ProjectForm extends Component {
 
         ProjectManager.getAllStatus()
             .then(status => {
-                console.log(status);
                 const statusNames = status.map(status => {
                     return {
                         key: status.id,
-                        value: status.id,
+                        value: status.statusName,
                         text: status.statusName
                     }
                 })
@@ -79,7 +78,9 @@ class ProjectForm extends Component {
                                     onChange={(e) => this.setState({ completionDate: e.target.value })}
                                 />
                                 <Form.Field>
-                                    <Select
+                                    <Dropdown
+                                        fluid
+                                        selection
                                         placeholder='update your project status'
                                         options={this.state.statusOptions}
                                         label='project status'

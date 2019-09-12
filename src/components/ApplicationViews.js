@@ -9,6 +9,7 @@ import ToolList from './tools/ToolList'
 import AddToolForm from './tools/AddToolForm'
 import ProjectForm from './projects/ProjectForm'
 import ProjectList from './projects/ProjectList'
+import Search from './searches/Search'
 
 
 class ApplicationViews extends Component {
@@ -84,6 +85,13 @@ class ApplicationViews extends Component {
                     return (
                         this.isAuthenticated()
                             ? <ProjectForm {...props} />
+                            : <Redirect to="/login" />
+                    )
+                }} />
+                <Route exact path='/search' render={(props) => {
+                    return (
+                        this.isAuthenticated()
+                            ? <Search {...props} />
                             : <Redirect to="/login" />
                     )
                 }} />

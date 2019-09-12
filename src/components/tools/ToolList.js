@@ -10,11 +10,10 @@ class ToolList extends Component {
     }
 
     componentDidMount() {
-        console.log("ANIMAL LIST: ComponentDidMount");
-        //getAll from AnimalManager and hang on to that data; put it in state
+        //getAll from ToolManager and hang on to that data; put it in state
         ToolManager.getAllTools()
             .then((tools) => {
-                console.log('cdm - all tools', tools)
+                console.log('cdm - all tools - expand=user', tools)
                 this.setState({
                     tools: tools
                 })
