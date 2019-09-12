@@ -10,7 +10,8 @@ class AddToolForm extends Component {
     state = {
         model: '',
         manual: null,
-        ownerId: null
+        ownerId: null,
+        description: ''
     }
 
     componentDidMount() {
@@ -20,10 +21,11 @@ class AddToolForm extends Component {
     }
     submitToolForm = () => {
         const newTool = {
-            ownerId: this.state.ownerId,
+            userId: this.state.ownerId,
             model: this.state.model,
             manual: this.state.manual,
-            isAvailable: true
+            isAvailable: true,
+            description: this.state.description
         }
         ToolManager.postNewTool(newTool).then(() => this.props.history.push("/tools"))
     }
@@ -42,7 +44,13 @@ class AddToolForm extends Component {
                                     type="text"
                                     label="model"
                                     onChange={(e) => this.setState({ model: e.target.value })}
-                                    placeholder="Tool model/description here" />
+                                    placeholder="model/name" />
+                                <Form.Field
+                                    control="input"
+                                    type="textarea"
+                                    label="additional notes"
+                                    onChange={(e) => this.setState({ description: e.target.value })}
+                                    placeholder="include any notes or special instructions her" />
                                 <Form.Field>
                                     accompanying manual?
                                 </Form.Field>

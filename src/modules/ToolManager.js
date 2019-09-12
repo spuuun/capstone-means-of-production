@@ -5,7 +5,7 @@ export default {
         return fetch(`${remoteURL}/tools/${id}`).then(result => result.json())
     },
     getAllTools() {
-        return fetch(`${remoteURL}/tools`).then(result => result.json())
+        return fetch(`${remoteURL}/tools?_expand=user`).then(result => result.json())
     },
     getMyTools(activeUserId) {
         return fetch(`${remoteURL}/tools?ownerId=${activeUserId}`).then(result => result.json())

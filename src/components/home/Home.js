@@ -23,7 +23,7 @@ export default class Home extends Component {
                 <Link to='/tools/new'>
                     <button type='button'>add a new tool</button>
                 </Link>
-                <Link to='#'>
+                <Link to='/projects/new'>
                     <button type='button'>add a new project</button>
                 </Link>
             </div>

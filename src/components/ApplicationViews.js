@@ -7,6 +7,9 @@ import RegisterForm from './auth/Register'
 import ToolCard from './tools/ToolCard'
 import ToolList from './tools/ToolList'
 import AddToolForm from './tools/AddToolForm'
+import ProjectForm from './projects/ProjectForm'
+import ProjectList from './projects/ProjectList'
+import Search from './searches/Search'
 
 
 class ApplicationViews extends Component {
@@ -64,10 +67,31 @@ class ApplicationViews extends Component {
                             : <Redirect to='/login' />
                     )
                 }} />
+                <Route exact path='/projects' render={(props) => {
+                    return (
+                        this.isAuthenticated()
+                            ? <ProjectList {...props} />
+                            : <Redirect to='/login' />
+                    )
+                }} />
                 <Route exact path='/tools/new' render={(props) => {
                     return (
                         this.isAuthenticated()
                             ? <AddToolForm {...props} />
+                            : <Redirect to="/login" />
+                    )
+                }} />
+                <Route exact path='/projects/new' render={(props) => {
+                    return (
+                        this.isAuthenticated()
+                            ? <ProjectForm {...props} />
+                            : <Redirect to="/login" />
+                    )
+                }} />
+                <Route exact path='/search' render={(props) => {
+                    return (
+                        this.isAuthenticated()
+                            ? <Search {...props} />
                             : <Redirect to="/login" />
                     )
                 }} />
