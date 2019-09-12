@@ -1,16 +1,8 @@
 import { Route, Redirect } from 'react-router-dom'
 import React, { Component } from 'react'
-// import Home from './home/Home'
-// import AnimalList from './animal/AnimalList'
-// import AnimalDetail from './animal/AnimalDetail'
-// import LocationList from './location/LocationList'
-// import EmployeeList from './employee/EmployeeList'
-// import OwnerList from './owner/OwnerList'
-// import LocationDetail from './location/LocationDetail';
 import Home from './home/Home'
 import NewUserForm from './users/NewUserForm'
 import LoginForm from './auth/Login'
-// import Navbar from './nav/Navbar'
 import RegisterForm from './auth/Register'
 import ToolCard from './tools/ToolCard'
 import AddToolForm from './tools/AddToolForm'
@@ -48,11 +40,11 @@ class ApplicationViews extends Component {
                     exact
                     path="/"
                     render={props => {
-                        return this.isAuthenticated() ? (
-                            <Home {...props} />
-                        ) : (
-                                <Redirect to="/login" />
-                            );
+                        return (
+                            this.isAuthenticated()
+                                ? <Home {...props} />
+                                : <Redirect to="/login" />
+                        )
                     }}
                 />
                 <Route exact path="/newuser" render={(props) => {
@@ -65,10 +57,18 @@ class ApplicationViews extends Component {
                     return <RegisterForm {...props} />
                 }} />
                 <Route exact path='/tools' render={(props) => {
-                    return <ToolCard {...props} />
+                    return (
+                        this.isAuthenticated()
+                            ? <ToolCard {...props} />
+                            : <Redirect to='/login' />
+                    )
                 }} />
-                <Route exact path='/addtool' render={(props) => {
-                    return <AddToolForm {...props} />
+                <Route exact path='/tools/new' render={(props) => {
+                    return (
+                        this.isAuthenticated()
+                            ? <AddToolForm {...props} />
+                            : <Redirect to="/login" />
+                    )
                 }} />
             </React.Fragment>
         )

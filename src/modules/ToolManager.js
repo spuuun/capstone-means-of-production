@@ -17,10 +17,10 @@ export default {
         })
             .then(result => result.json())
     },
-    post(newTool) {
+    postNewTool(newTool) {
         return fetch(`${remoteURL}/tools`, {
             method: "POST",
-            heaers: {
+            headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(newTool)

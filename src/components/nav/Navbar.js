@@ -23,21 +23,6 @@ class NavBar extends Component {
                         <Link className="nav-link" to="/">Home</Link>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to="/news">News</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/friends">Friends</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/messages">Messages</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/tasks">Tasks</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/events">Events</Link>
-                    </li>
-                    <li className="nav-item">
                         <Link className="nav-link"
                             to="/"
                             onClick={this.handleLogout} >
