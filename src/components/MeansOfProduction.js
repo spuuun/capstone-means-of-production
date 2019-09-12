@@ -2,12 +2,14 @@ import React, { Component } from "react"
 // import NavBar from "./nav/NavBar"
 import ApplicationViews from "./ApplicationViews"
 // import "./Kennel.css"
+import NavBar from './nav/Navbar'
+import './MeansOfProduction.css'
 
 class MeansOfProduction extends Component {
     render() {
         return (
             <>
-                {/* <NavBar /> */}
+                <NavBar />
                 <ApplicationViews />
             </>
         )

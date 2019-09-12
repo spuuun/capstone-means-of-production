@@ -5,6 +5,9 @@
 # json-server db
 /api
 
+# scratch code to play with new concepts/technologies
+/scraps
+
 # dependencies
 /node_modules
 /.pnp

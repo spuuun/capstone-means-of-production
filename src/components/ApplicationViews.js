@@ -1,17 +1,12 @@
 import { Route, Redirect } from 'react-router-dom'
 import React, { Component } from 'react'
-// import Home from './home/Home'
-// import AnimalList from './animal/AnimalList'
-// import AnimalDetail from './animal/AnimalDetail'
-// import LocationList from './location/LocationList'
-// import EmployeeList from './employee/EmployeeList'
-// import OwnerList from './owner/OwnerList'
-// import LocationDetail from './location/LocationDetail';
 import Home from './home/Home'
 import NewUserForm from './users/NewUserForm'
 import LoginForm from './auth/Login'
-import Navbar from './nav/Navbar'
 import RegisterForm from './auth/Register'
+import ToolCard from './tools/ToolCard'
+import ToolList from './tools/ToolList'
+import AddToolForm from './tools/AddToolForm'
 
 
 class ApplicationViews extends Component {
@@ -46,51 +41,35 @@ class ApplicationViews extends Component {
                     exact
                     path="/"
                     render={props => {
-                        return this.isAuthenticated() ? (
-                            <Home {...props} />
-                        ) : (
-                                <Redirect to="/login" />
-                            );
+                        return (
+                            this.isAuthenticated()
+                                ? <Home {...props} />
+                                : <Redirect to="/login" />
+                        )
                     }}
                 />
                 <Route exact path="/newuser" render={(props) => {
                     return <NewUserForm {...props} />
                 }} />
-
-                {/* <Route exact path="/animals" render={(props) => {
-                    return <AnimalList {...props} />
-                }} />
-
-                <Route path="/animals/:animalId(\d+)" render={(props) => {
-                    // Pass the animalId to the AnimalDetailComponent
-                    return <AnimalDetail animalId={parseInt(props.match.params.animalId)} {...props} />
-                }} />
-
-                <Route path="/animals/new" render={(props) => {
-                    return <AnimalForm {...props} />
-                }} />
-
-                <Route path="/locations/:locationId(\d+)" render={(props) => {
-                    // Pass the locationId to the LocationDetailComponent
-                    return <LocationDetail locationId={parseInt(props.match.params.locationId)} {...props} />
-                }} />
-
-                <Route path="/owner" render={(props) => {
-                    return <OwnerList />
-                }} />
-
-                <Route path="/employee" render={(props) => {
-                    return <EmployeeList />
-                }} />
-
-                <Route path="/location" render={(props) => {
-                    return <LocationList />
-                }} /> */}
                 <Route exact path="/login" render={(props) => {
                     return <LoginForm {...props} />
                 }} />
                 <Route exact path="/register" render={(props) => {
                     return <RegisterForm {...props} />
+                }} />
+                <Route exact path='/tools' render={(props) => {
+                    return (
+                        this.isAuthenticated()
+                            ? <ToolList {...props} />
+                            : <Redirect to='/login' />
+                    )
+                }} />
+                <Route exact path='/tools/new' render={(props) => {
+                    return (
+                        this.isAuthenticated()
+                            ? <AddToolForm {...props} />
+                            : <Redirect to="/login" />
+                    )
                 }} />
             </React.Fragment>
         )

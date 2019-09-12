@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import { Link, Redirect } from "react-router-dom"
+import { Button, Form, Header } from 'semantic-ui-react'
 import UserManager from "../../modules/UserManager"
 
 
@@ -90,44 +91,51 @@ class LoginForm extends Component {
     render() {
         return (
             <>
-                <form>
-                    <fieldset>
-                        <div className="formgrid">
-                            <label htmlFor="username">username</label>
-                            <input
-                                type="username"
-                                required
-                                onChange={this.handleFieldChange}
-                                id="username"
-                                placeholder="username"
-                            />
-                            <label htmlFor="password">password</label>
-                            <input
-                                type="password"
-                                required
-                                onChange={this.handleFieldChange}
-                                id="password"
-                                placeholder="Enter Password"
-                            />
-                        </div>
-                        <div className="alignRight">
-                            <input type="checkbox" id="remember" onChange={this.handleFieldChange} />
-                            <label htmlFor="remember">Remember me</label>
-                            <button
-                                type="button"
-                                disabled={this.state.loadingStatus}
-                                onClick={this.handleLogin}
-                            >Login</button>
-                        </div>
-                    </fieldset>
-                    <fieldset>
-                        <div>
-                            <Link to='/register'>
-                                <button type="button">register new user</button>
-                            </Link>
-                        </div>
-                    </fieldset>
-                </form>
+                <Header as='h1'>
+                    Means
+                </Header>
+                <Header as='h1'>
+                    of
+                </Header>
+                <Header as='h1'>
+                    Production
+                </Header>
+                <Form>
+                    <Form.Field>
+                        <label htmlFor="username">username</label>
+                        <input
+                            type="username"
+                            required
+                            onChange={this.handleFieldChange}
+                            id="username"
+                            placeholder="username"
+                        />
+                    </Form.Field>
+                    <Form.Field>
+                        <label htmlFor="password">password</label>
+                        <input
+                            type="password"
+                            required
+                            onChange={this.handleFieldChange}
+                            id="password"
+                            placeholder="Enter Password"
+                        />
+                    </Form.Field>
+                    <Form.Field>
+                        <input type="checkbox" id="remember" onChange={this.handleFieldChange} />
+                        <label htmlFor="remember">Remember me</label>
+                        <Button
+                            type="button"
+                            disabled={this.state.loadingStatus}
+                            onClick={this.handleLogin}
+                        >Login</Button>
+                    </Form.Field>
+                    <Form.Field>
+                        <Link to='/register'>
+                            <Button type="button">register new user</Button>
+                        </Link>
+                    </Form.Field>
+                </Form>
             </>
         )
     }
