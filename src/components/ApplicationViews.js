@@ -5,6 +5,7 @@ import NewUserForm from './users/NewUserForm'
 import LoginForm from './auth/Login'
 import RegisterForm from './auth/Register'
 import ToolCard from './tools/ToolCard'
+import ToolList from './tools/ToolList'
 import AddToolForm from './tools/AddToolForm'
 
 
@@ -59,7 +60,7 @@ class ApplicationViews extends Component {
                 <Route exact path='/tools' render={(props) => {
                     return (
                         this.isAuthenticated()
-                            ? <ToolCard {...props} />
+                            ? <ToolList {...props} />
                             : <Redirect to='/login' />
                     )
                 }} />

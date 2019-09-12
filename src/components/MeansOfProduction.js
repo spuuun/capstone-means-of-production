@@ -3,6 +3,7 @@ import React, { Component } from "react"
 import ApplicationViews from "./ApplicationViews"
 // import "./Kennel.css"
 import NavBar from './nav/Navbar'
+import './MeansOfProduction.css'
 
 class MeansOfProduction extends Component {
     render() {

@@ -8,19 +8,14 @@ class ToolCard extends Component {
             <Card className='tool-card'>
                 <Image size='mini' src={require('../../images/karlsson-adze.jpeg')} alt='cool adze' wrapped />
                 <Card.Content>
-                    <Card.Header>Adze</Card.Header>
-                    <Card.Meta>Owner: 'user who added tool'</Card.Meta>
-                    {/* if there's a digital manual --- provide link here
-                    else, if there's no digi-manual, but there is a physical one --- provide note indicating that 
-                    else, if no manual listed --- either show nothing OR say 'no manual listed'*/}
-                    <Card.Description>This is a carving tool that can be used to make bowls, canoes, chair seats, and more. It is very nice - take good care --message owner if you don't know what that entails--</Card.Description>
-                    </Card.Content>
-                    <Card.Content extra>
-                        show here:
-                        
-                        status -- checked out/avail
-
-                        show affordances to request/place hold/contact owner
+                    <Card.Header>model: {this.props.tool.model}</Card.Header>
+                    <Card.Meta>owner: {this.props.tool.ownderId}</Card.Meta>
+                    <Card.Description>here's where a description would go</Card.Description>
+                </Card.Content>
+                <Card.Content extra>
+                    show here:
+                        available: {this.props.tool.isAvailable}
+                    show affordances to request/place hold/contact owner
                 </Card.Content>
             </Card>
         )
