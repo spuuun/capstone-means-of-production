@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import ToolCard from './ToolCard'
 import ToolManager from '../../modules/ToolManager'
+import LoanManager from '../../modules/LoanManager'
 import './ToolCard.css'
 
 class ToolList extends Component {
     //define what this component needs to render
     state = {
         tools: [],
+        activeUserId: null
     }
 
     componentDidMount() {
@@ -17,6 +19,31 @@ class ToolList extends Component {
                 this.setState({
                     tools: tools
                 })
+            })
+    }
+
+    checkoutTool = (tool) => {
+        LoanManager.postLoan({
+            borrowerId: this.props.activeUserId,
+            toolId: tool.id,
+            dateBorrowed: Date.now(),
+            dateReturned: null
+        })
+            .then(loan => {
+                ToolManager.getSingleTool(loan.toolId)
+                    .then(tool => {
+                        tool.isAvailable = false
+                        ToolManager.update(tool)
+                            .then(tool => {
+                                ToolManager.getAllTools()
+                                    .then((tools) => {
+                                        this.setState({
+                                            tools: tools
+                                        })
+                                    })
+                            }
+                            )
+                    })
             })
     }
 
@@ -48,6 +75,8 @@ class ToolList extends Component {
                             key={tool.id}
                             tool={tool}
                             deleteTool={this.deleteTool}
+                            activeUserId={this.props.activeUserId}
+                            checkoutTool={this.checkoutTool}
                         />
                     )}
                 </div>

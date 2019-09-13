@@ -122,13 +122,13 @@ class LoginForm extends Component {
                         />
                     </Form.Field>
                     <Form.Field>
-                        <input type="checkbox" id="remember" onChange={this.handleFieldChange} />
-                        <label htmlFor="remember">Remember me</label>
                         <Button
                             type="button"
                             disabled={this.state.loadingStatus}
                             onClick={this.handleLogin}
                         >Login</Button>
+                        <input type="checkbox" id="remember" onChange={this.handleFieldChange} />
+                        <label htmlFor="remember">Remember me</label>
                     </Form.Field>
                     <Form.Field>
                         <Link to='/register'>

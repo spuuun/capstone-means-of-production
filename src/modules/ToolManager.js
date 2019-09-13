@@ -1,14 +1,14 @@
 const remoteURL = "http://localhost:5002"
 
 export default {
-    getTool(id) {
+    getSingleTool(id) {
         return fetch(`${remoteURL}/tools/${id}`).then(result => result.json())
     },
     getAllTools() {
         return fetch(`${remoteURL}/tools?_expand=user`).then(result => result.json())
     },
     getMyTools(activeUserId) {
-        return fetch(`${remoteURL}/tools?ownerId=${activeUserId}`).then(result => result.json())
+        return fetch(`${remoteURL}/tools?_expand=user&ownerId=${activeUserId}`).then(result => result.json())
     },
     //will need a method for getting tools that are checked out --- either by me, or my tools that're checked out by others
     deleteTool(id) {

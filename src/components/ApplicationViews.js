@@ -15,7 +15,7 @@ import Search from './searches/Search'
 class ApplicationViews extends Component {
 
     state = {
-        activeUserId: 0
+        activeUserId: null
     }
 
     isAuthenticated() {
@@ -63,7 +63,9 @@ class ApplicationViews extends Component {
                 <Route exact path='/tools' render={(props) => {
                     return (
                         this.isAuthenticated()
-                            ? <ToolList {...props} />
+                            ? <ToolList
+                                {...props}
+                                activeUserId={this.state.activeUserId} />
                             : <Redirect to='/login' />
                     )
                 }} />

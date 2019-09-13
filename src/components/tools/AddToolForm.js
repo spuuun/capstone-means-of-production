@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // import { withRouter } from 'react-router-dom';
-import { Header, Form, Grid, Button, Checkbox } from 'semantic-ui-react';
+import { Header, Form, Grid, Button, Checkbox, TextArea } from 'semantic-ui-react';
 // import { saveProfile } from '../APIManager/profiles';
 // import * as firebase from 'firebase/app';
 // import 'firebase/storage';
@@ -45,9 +45,8 @@ class AddToolForm extends Component {
                                     label="model"
                                     onChange={(e) => this.setState({ model: e.target.value })}
                                     placeholder="model/name" />
-                                <Form.Field
-                                    control="input"
-                                    type="textarea"
+                                <Form.Field />
+                                <TextArea
                                     label="additional notes"
                                     onChange={(e) => this.setState({ description: e.target.value })}
                                     placeholder="include any notes or special instructions her" />
