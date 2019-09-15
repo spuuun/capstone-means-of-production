@@ -3,7 +3,12 @@ import { Card, Image, CardContent, Button } from 'semantic-ui-react'
 import './ToolCard.css'
 import LoanManager from '../../modules/LoanManager';
 
-class ToolCard extends Component {
+class MyToolCard extends Component {
+
+    componentDidMount() {
+        console.log('hey');
+    }
+
     render() {
         return (
             <Card className='tool-card'>
@@ -18,9 +23,10 @@ class ToolCard extends Component {
                     {this.props.tool.userId === this.props.activeUserId ?
                         <>
                             <Button type='button'
+                                // onClick={}
                                 content='edit tool' />
                             <Button type='button'
-                                onClick={() => { this.props.deleteTool(this.props.tool.id) }}
+                                onClick={this.props.deleteTool}
                                 content='delete tool' />
                         </>
                         : this.props.tool.isAvailable
@@ -32,9 +38,10 @@ class ToolCard extends Component {
                                 type='button'
                                 content='place hold' />}
                 </CardContent>
+                <CardContent>IF I AM THE OWNER OF THIS TOOL - I SHOULD GET EDIT AND DELE AFFORDANCES TOO</CardContent>
             </Card>
         )
     }
 }
 
-export default ToolCard
+export default MyToolCard

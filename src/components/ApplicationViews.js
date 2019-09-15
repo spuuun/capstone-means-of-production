@@ -15,11 +15,16 @@ import Search from './searches/Search'
 class ApplicationViews extends Component {
 
     state = {
-        activeUserId: 0
+        activeUserId: null
     }
 
     isAuthenticated() {
-        return sessionStorage.getItem('activeUser') !== null || localStorage.getItem('activeUser' !== null)
+        if (sessionStorage.getItem('activeUser') !== null || localStorage.getItem('activeUser') !== null) {
+            return true
+        }
+        else {
+            return false
+        }
     }
 
     componentDidMount() {
@@ -55,7 +60,7 @@ class ApplicationViews extends Component {
                     return <NewUserForm {...props} />
                 }} />
                 <Route exact path="/login" render={(props) => {
-                    return <LoginForm {...props} />
+                    return <LoginForm isAuthenticated={this.isAuthenticated} {...props} />
                 }} />
                 <Route exact path="/register" render={(props) => {
                     return <RegisterForm {...props} />
@@ -63,7 +68,9 @@ class ApplicationViews extends Component {
                 <Route exact path='/tools' render={(props) => {
                     return (
                         this.isAuthenticated()
-                            ? <ToolList {...props} />
+                            ? <ToolList
+                                {...props}
+                                activeUserId={this.state.activeUserId} />
                             : <Redirect to='/login' />
                     )
                 }} />

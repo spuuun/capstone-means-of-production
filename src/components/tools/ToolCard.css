@@ -1,3 +1,7 @@
+.my-tools {
+  display:flex;
+}
+
 .card, .tool-card {
     /* Add shadows to create the "card" effect */
     box-shadow: 3px 4px 8px 0 rgba(0,0,0,0.2);
