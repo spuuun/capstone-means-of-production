@@ -2,7 +2,7 @@ const remoteURL = "http://localhost:5002"
 
 export default {
     getLoans() {
-        return fetch(`${remoteURL}/toolHistory`).then(r => r.json())
+        return fetch(`${remoteURL}/toolHistory?_expand=tool`).then(r => r.json())
     },
     postLoan(newLoan) {
         return fetch(`${remoteURL}/toolHistory`, {

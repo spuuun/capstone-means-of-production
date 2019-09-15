@@ -30,6 +30,7 @@ class AddToolForm extends Component {
         ToolManager.postNewTool(newTool).then(() => this.props.history.push("/tools"))
     }
     render() {
+        console.log('this.state at render', this.state);
         return (
             <div className="image-form__container">
                 <Header>

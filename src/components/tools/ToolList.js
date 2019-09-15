@@ -8,6 +8,7 @@ class ToolList extends Component {
     //define what this component needs to render
     state = {
         tools: [],
+        notMyTools: [],
         activeUserId: null
     }
 
@@ -15,9 +16,12 @@ class ToolList extends Component {
         //getAll from ToolManager and hang on to that data; put it in state
         ToolManager.getAllTools()
             .then((tools) => {
-                console.log('cdm - all tools - expand=user', tools)
+                const notMyTools = tools.filter(tool => {
+                    return tool.userId !== this.props.activeUserId
+                })
                 this.setState({
-                    tools: tools
+                    tools: tools,
+                    notMyTools: notMyTools
                 })
             })
     }
@@ -48,7 +52,7 @@ class ToolList extends Component {
     }
 
     deleteTool = id => {
-        ToolManager.deleteTool(id)
+        ToolManager.delete(id)
             .then(() => {
                 ToolManager.getAllTools()
                     .then((newTools) => {

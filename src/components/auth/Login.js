@@ -15,7 +15,7 @@ class LoginForm extends Component {
     }
 
     componentDidMount() {
-        console.log(this.state);
+        console.log(this.props.isAuthenticated());
     }
 
     handleFieldChange = evt => {
