@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Container, Button } from 'semantic-ui-react'
+import { Container, Button, Grid, Accordion, Icon } from 'semantic-ui-react'
 import ToolManager from '../../modules/ToolManager'
 import ToolCard from '../tools/ToolCard'
+import MyToolCard from '../tools/MyToolCard'
 import '../tools/ToolCard.css'
 import LoanManager from '../../modules/LoanManager'
 import LoanCard from '../loans/LoanCard'
@@ -15,7 +16,8 @@ export default class Home extends Component {
         myTools: [],
         loans: [],
         borrowed: [],
-        loaned: []
+        loaned: [],
+        activeIndex: -1
     }
     componentDidMount() {
         const activeUser = JSON.parse(sessionStorage.getItem('activeUser'))
@@ -26,105 +28,113 @@ export default class Home extends Component {
         })
 
         LoanManager.getLoans().then(loans => {
+            console.log('loans', loans);
             this.setState({ loans: loans })
-        })
-        const toolsBorrowed = this.state.loans.filter(loan => {
-            return this.state.activeUserId === loan.borrowerId
-        })
-        const toolsLoaned = this.state.loans.filter(loan => {
-            return this.state.activeUserId === loan.tool.userId
-        })
-        this.setState({ borrowed: toolsBorrowed, loaned: toolsLoaned })
+        }).then(() => this.parsedLoans())
 
-        // const activeUser = JSON.parse(localStorage.getItem('activeUser'))
-        // const sessionUser = JSON.parse(sessionStorage.getItem('activeUser'))
-        // if (activeUser === null) {
-        //     this.setState({ activeUserId: sessionUser.activeUserId, username: sessionUser.username })
-        //         .then(() => {
-        //             ToolManager.getMyTools(this.state.activeUserId)
-        //                 .then(tools => {
-        //                     console.log(tools)
-        //                     this.setState({ myTools: tools })
-        //                 })
-        //         })
-        // } else {
-        //     this.setState({ activeUserId: activeUser.activeUserId, username: activeUser.username })
-        //         .then(() => {
-        //             ToolManager.getMyTools(this.state.activeUserId)
-        //                 .then(tools => {
-        //                     console.log(tools)
-        //                     this.setState({ myTools: tools })
-        //                 })
-        //         })
-        // }
     }
 
     parsedLoans = () => {
         const toolsBorrowed = this.state.loans.filter(loan => {
-            return this.state.activeUserId === loan.borrowerId
+            return this.state.activeUserId === loan.userId
         })
         const toolsLoaned = this.state.loans.filter(loan => {
             return this.state.activeUserId === loan.tool.userId
         })
         this.setState({ borrowed: toolsBorrowed, loaned: toolsLoaned })
+    }
+
+    handleClick = (e, titleProps) => {
+        const { index } = titleProps
+        const activeIndex = this.state.activeIndex
+        const newIndex = activeIndex === index ? -1 : index
+
+        console.log({ index }, { activeIndex });
+
+        this.setState({ activeIndex: newIndex })
     }
 
     render() {
         return (
             <div>
-                <div>
-                    <p> Welcome </p>
-                    <h1>{this.state.username}!</h1>
-                    <p> This is the home/profile page for registered and logged in user!</p>
-                </div>
-                <Container>
-                    <div className='my-loans'>
-                        <Button type='button'
-                            onClick={() => {
-                                this.parsedLoans()
-                            }}
-                            content='fuck' />
-                    </div>
-                </Container>
-                <Link to='/tools/new'>
-                    <button type='button'>add a new tool</button>
-                </Link>
-                <Link to='/projects/new'>
-                    <button type='button'>add a new project</button>
-                </Link>
-                <Container>
-                    <div className='my-tools'>
-                        {this.state.myTools.map(tool => {
-                            return <ToolCard
-                                key={tool.id}
-                                tool={tool}
-                                deleteTool={this.deleteTool}
-                                activeUserId={this.props.activeUserId}
-                                checkoutTool={this.checkoutTool}
-                            />
-                        })}
-                    </div>
-                </Container>
-                <Container className='borrowed'>
-                    <h2>loaned</h2>
-                    {this.state.loaned.map(tool => {
-                        return <LoanCard
-                            key={tool.id}
-                            loan={tool}
-                        />
+                <Grid columns={2} padded>
+                    <Grid.Row centered>
+                        <div>
+                            <p> Welcome </p>
+                            <h1>{this.state.username}!</h1>
+                            <p> This is the home/profile page for registered and logged in user!</p>
+                        </div>
+                    </Grid.Row>
+                    <Grid.Column>
+                        <Link to='/tools/new'>
+                            <button type='button'>add a new tool</button>
+                        </Link>
+                        <Accordion styled>
+                            <Accordion.Title
+                                active={this.state.activeIndex === 0}
+                                index={0}
+                                onClick={this.handleClick}>
+                                <Icon name='dropdown' />
+                                My Tools
+                                </Accordion.Title>
+                            <Accordion.Content active={this.state.activeIndex === 0}>
+                                <Container>
+                                    <div className='my-tools'>
+                                        {this.state.myTools.map(tool => {
+                                            return <MyToolCard
+                                                key={tool.id}
+                                                tool={tool}
+                                                deleteTool={this.deleteTool}
+                                                activeUserId={this.props.activeUserId}
+                                            />
+                                        })}
+                                    </div>
+                                </Container>
+                            </Accordion.Content>
+                            <Accordion.Title
+                                active={this.state.activeIndex === 1}
+                                index={1}
+                                onClick={this.handleClick}>
+                                <Icon name='dropdown' />
+                                Tools Loaned Out
+                                </Accordion.Title>
+                            <Accordion.Content active={this.state.activeIndex === 1}>
+                                <Container className='borrowed'>
+                                    {this.state.loaned.map(loan => {
+                                        return <LoanCard
+                                            key={loan.id}
+                                            loan={loan}
+                                        />
 
-                    })}
-                </Container>
-                <Container className='borrowed'>
-                    <h2>borrowed</h2>
-                    {this.state.borrowed.map(tool => {
-                        return <LoanCard
-                            key={tool.id}
-                            loan={tool}
-                        />
-                    })}
-                </Container>
-            </div>
+                                    })}
+                                </Container>
+                            </Accordion.Content>
+                            <Accordion.Title
+                                active={this.state.activeIndex === 2}
+                                index={2}
+                                onClick={this.handleClick}>
+                                <Icon name='dropdown' />
+                                Tools Borrowed
+                                </Accordion.Title>
+                            <Accordion.Content active={this.state.activeIndex === 2}>
+                                <Container className='borrowed'>
+                                    {this.state.borrowed.map(tool => {
+                                        return <LoanCard
+                                            key={tool.id}
+                                            loan={tool}
+                                        />
+                                    })}
+                                </Container>
+                            </Accordion.Content>
+                        </Accordion>
+                    </Grid.Column>
+                    <Grid.Column>
+                        <Link to='/projects/new'>
+                            <button type='button'>add a new project</button>
+                        </Link>
+                    </Grid.Column>
+                </Grid>
+            </div >
         )
     }
 }

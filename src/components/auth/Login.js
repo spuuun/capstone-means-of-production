@@ -102,7 +102,7 @@ class LoginForm extends Component {
                 </Header>
                 <Form>
                     <Form.Field>
-                        <label htmlFor="username">username</label>
+                        <label>username</label>
                         <input
                             type="username"
                             required
@@ -112,7 +112,7 @@ class LoginForm extends Component {
                         />
                     </Form.Field>
                     <Form.Field>
-                        <label htmlFor="password">password</label>
+                        <label>password</label>
                         <input
                             type="password"
                             required
@@ -127,8 +127,10 @@ class LoginForm extends Component {
                             disabled={this.state.loadingStatus}
                             onClick={this.handleLogin}
                         >Login</Button>
+                    </Form.Field>
+                    <Form.Field>
+                        <label>Remember me</label>
                         <input type="checkbox" id="remember" onChange={this.handleFieldChange} />
-                        <label htmlFor="remember">Remember me</label>
                     </Form.Field>
                     <Form.Field>
                         <Link to='/register'>

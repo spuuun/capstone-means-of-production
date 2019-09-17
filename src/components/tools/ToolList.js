@@ -28,7 +28,7 @@ class ToolList extends Component {
 
     checkoutTool = (tool) => {
         LoanManager.postLoan({
-            borrowerId: this.props.activeUserId,
+            userId: this.props.activeUserId,
             toolId: tool.id,
             dateBorrowed: Date.now(),
             dateReturned: null

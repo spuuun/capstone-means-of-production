@@ -1,7 +1,8 @@
 import React, { Component } from "react"
 import { Link } from "react-router-dom"
-// import "bootstrap/dist/css/bootstrap.min.css"
 
+//---------HANDLE LOGOUT FUNCTION NEEDS TO RESET STATE EVERYWHERE THERE'S ACTIVE USER ID
+//--- or just at the top, after i move state up 
 
 class NavBar extends Component {
 
