@@ -20,7 +20,7 @@ class MyToolCard extends Component {
                     <>
                         <EditToolForm tool={this.props.tool} refreshTools={this.props.refreshTools} />
                         <Button type='button'
-                            onClick={this.props.deleteTool}
+                            onClick={() => this.props.deleteTool(this.props.tool.id)}
                             content='delete tool' />
                     </>
                 </CardContent>

@@ -13,7 +13,7 @@ export default {
             body: JSON.stringify(newLoan)
         }).then(data => data.json())
     },
-    updateLoan(id) {
+    returnLoan(id) {
         return fetch(`${remoteURL}/toolHistory/${id}`, {
             method: "PATCH",
             headers: {

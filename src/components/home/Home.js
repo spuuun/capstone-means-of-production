@@ -55,8 +55,13 @@ export default class Home extends Component {
     }
 
     returnTool = (loan) => {
-        LoanManager.updateLoan(loan.id).then(() => LoanManager.getLoans()).then(loans => this.setState({ loans: loans })).then(() => this.parsedLoans())
-        ToolManager.return(loan.tool).then(r => console.log(r))
+        LoanManager.returnLoan(loan.id)
+            .then(() => LoanManager.getLoans())
+            .then(loans => this.setState({ loans: loans }))
+            .then(() => this.parsedLoans())
+            .then(() => {
+                ToolManager.return(loan.tool)
+            })
     }
 
     parsedLoans = () => {
