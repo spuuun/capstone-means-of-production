@@ -35,6 +35,15 @@ export default {
             body: JSON.stringify(editedTool)
         }).then(data => data.json());
     },
+    return(tool) {
+        return fetch(`${remoteURL}/tools/${tool.id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ isAvailable: true })
+        })
+    },
     getFriendsTools(id) {
         return fetch(`${remoteURL}/tools/?userId=${id}`).then(result => result.json())
     }

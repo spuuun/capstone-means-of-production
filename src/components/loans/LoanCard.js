@@ -18,7 +18,7 @@ class LoanCard extends Component {
                     && <Button
                         type='button'
                         content='return tool'
-                        onClick={() => this.props.returnTool(this.props.loan.id)} />
+                        onClick={() => this.props.returnTool(this.props.loan)} />
                 }
                 {/* {this.props.loan.tool.userId === this.props.activeUserId
                     && <Button type='button' content='my tool' />} */}

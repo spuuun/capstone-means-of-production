@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { Button, Card, Image, CardContent } from 'semantic-ui-react'
 import './Project.css'
 
 class ProjectCard extends Component {
     render() {
         return (
-            <div className="card">
-                <div className="card-content">
-                    <picture>
-                        <img src={require('../../images/shed-project.JPG')} alt="big project" />
-                    </picture>
-                    <h2><span className="card-petname">{this.props.project.projectName}</span></h2>
-                    <p>Details: {this.props.project.projectDescription}</p>
-                    <Link to={`/projects/${this.props.project.id}`}><button>Details</button></Link>
-                </div>
-            </div>
+            <Card className="card">
+                <CardContent className="card-content">
+                    <Image size='small' src={require('../../images/shed-project.JPG')} alt="big project" wrapped />
+                    <Card.Header>{this.props.project.projectName}</Card.Header>
+                    <Card.Description>{this.props.project.projectDescription}</Card.Description>
+                    {/* <Link to={`/projects/${this.props.project.id}`}><button>Details</button></Link> */}
+                    <Button type='button' content='delete' onClick={() => { this.props.deleteProject(this.props.project.id) }} />
+                </CardContent>
+            </Card>
         );
     }
 }

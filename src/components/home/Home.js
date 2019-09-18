@@ -7,6 +7,7 @@ import MyToolCard from '../tools/MyToolCard'
 import '../tools/ToolCard.css'
 import LoanManager from '../../modules/LoanManager'
 import LoanCard from '../loans/LoanCard'
+import ProjectList from '../projects/ProjectList'
 
 export default class Home extends Component {
 
@@ -53,8 +54,9 @@ export default class Home extends Component {
         })
     }
 
-    returnTool = (id) => {
-        LoanManager.updateLoan(id).then(r => console.log(r))
+    returnTool = (loan) => {
+        LoanManager.updateLoan(loan.id).then(() => LoanManager.getLoans()).then(loans => this.setState({ loans: loans })).then(() => this.parsedLoans())
+        ToolManager.return(loan.tool).then(r => console.log(r))
     }
 
     parsedLoans = () => {
@@ -160,6 +162,9 @@ export default class Home extends Component {
                         <Link to='/projects/new'>
                             <button type='button'>add a new project</button>
                         </Link>
+                        <Container>
+                            <ProjectList />
+                        </Container>
                     </Grid.Column>
                 </Grid>
             </div >
