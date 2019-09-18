@@ -12,5 +12,14 @@ export default {
             },
             body: JSON.stringify(newLoan)
         }).then(data => data.json())
+    },
+    returnLoan(id) {
+        return fetch(`${remoteURL}/toolHistory/${id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ dateReturned: Date.now() })
+        }).then(d => d.json())
     }
 }

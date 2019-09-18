@@ -7,6 +7,7 @@ import MyToolCard from '../tools/MyToolCard'
 import '../tools/ToolCard.css'
 import LoanManager from '../../modules/LoanManager'
 import LoanCard from '../loans/LoanCard'
+import ProjectList from '../projects/ProjectList'
 
 export default class Home extends Component {
 
@@ -17,8 +18,10 @@ export default class Home extends Component {
         loans: [],
         borrowed: [],
         loaned: [],
-        activeIndex: -1
+        activeIndex: -1,
+        showModal: false
     }
+
     componentDidMount() {
         const activeUser = JSON.parse(sessionStorage.getItem('activeUser'))
         this.setState({ activeUserId: activeUser.activeUserId, username: activeUser.username })
@@ -28,18 +31,45 @@ export default class Home extends Component {
         })
 
         LoanManager.getLoans().then(loans => {
-            console.log('loans', loans);
             this.setState({ loans: loans })
         }).then(() => this.parsedLoans())
 
     }
 
+    deleteTool = id => {
+        ToolManager.delete(id)
+            .then(() => {
+                ToolManager.getAllTools()
+                    .then((newTools) => {
+                        this.setState({
+                            tools: newTools
+                        })
+                    })
+            })
+    }
+
+    refreshTools = () => {
+        ToolManager.getMyTools(this.state.activeUserId).then(tools => {
+            this.setState({ myTools: tools, activeIndex: 0 })
+        })
+    }
+
+    returnTool = (loan) => {
+        LoanManager.returnLoan(loan.id)
+            .then(() => LoanManager.getLoans())
+            .then(loans => this.setState({ loans: loans }))
+            .then(() => this.parsedLoans())
+            .then(() => {
+                ToolManager.return(loan.tool)
+            })
+    }
+
     parsedLoans = () => {
         const toolsBorrowed = this.state.loans.filter(loan => {
-            return this.state.activeUserId === loan.userId
+            return this.state.activeUserId === loan.userId && loan.dateReturned === null
         })
         const toolsLoaned = this.state.loans.filter(loan => {
-            return this.state.activeUserId === loan.tool.userId
+            return this.state.activeUserId === loan.tool.userId && loan.dateReturned === null
         })
         this.setState({ borrowed: toolsBorrowed, loaned: toolsLoaned })
     }
@@ -76,7 +106,7 @@ export default class Home extends Component {
                                 onClick={this.handleClick}>
                                 <Icon name='dropdown' />
                                 My Tools
-                                </Accordion.Title>
+                            </Accordion.Title>
                             <Accordion.Content active={this.state.activeIndex === 0}>
                                 <Container>
                                     <div className='my-tools'>
@@ -85,7 +115,8 @@ export default class Home extends Component {
                                                 key={tool.id}
                                                 tool={tool}
                                                 deleteTool={this.deleteTool}
-                                                activeUserId={this.props.activeUserId}
+                                                activeUserId={this.state.activeUserId}
+                                                refreshTools={this.refreshTools}
                                             />
                                         })}
                                     </div>
@@ -104,6 +135,8 @@ export default class Home extends Component {
                                         return <LoanCard
                                             key={loan.id}
                                             loan={loan}
+                                            activeUserId={this.state.activeUserId}
+                                            returnTool={this.returnTool}
                                         />
 
                                     })}
@@ -118,10 +151,12 @@ export default class Home extends Component {
                                 </Accordion.Title>
                             <Accordion.Content active={this.state.activeIndex === 2}>
                                 <Container className='borrowed'>
-                                    {this.state.borrowed.map(tool => {
+                                    {this.state.borrowed.map(loan => {
                                         return <LoanCard
-                                            key={tool.id}
-                                            loan={tool}
+                                            key={loan.id}
+                                            loan={loan}
+                                            activeUserId={this.state.activeUserId}
+                                            returnTool={this.returnTool}
                                         />
                                     })}
                                 </Container>
@@ -132,6 +167,9 @@ export default class Home extends Component {
                         <Link to='/projects/new'>
                             <button type='button'>add a new project</button>
                         </Link>
+                        <Container>
+                            <ProjectList />
+                        </Container>
                     </Grid.Column>
                 </Grid>
             </div >

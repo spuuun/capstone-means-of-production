@@ -46,6 +46,7 @@ class ProjectForm extends Component {
         ProjectManager.postNewProject(newProject)
             .then(() => this.props.history.push("/projects"))
     }
+
     render() {
         console.log('render --- this.state', this.state);
         return (

@@ -34,13 +34,13 @@ class ProjectList extends Component {
     render() {
         return (
             <>
-                <section className="section-content">
+                {/* <section className="section-content">
                     <button type="button"
                         className="btn"
                         onClick={() => { this.props.history.push("/projects/new") }}>
                         add project
                     </button>
-                </section>
+                </section> */}
                 <div className="container-cards">
                     {this.state.projects.map(project =>
                         <ProjectCard

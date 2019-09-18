@@ -7,7 +7,7 @@ class ToolCard extends Component {
     render() {
         return (
             <Card className='tool-card'>
-                <Image size='mini' src={require('../../images/karlsson-adze.jpeg')} alt='cool adze' wrapped />
+                <Image centered size='small' src={require('../../images/karlsson-adze.jpeg')} alt='cool adze' wrapped />
                 <Card.Header>model: {this.props.tool.model}</Card.Header>
                 <CardContent>
                     <Card.Meta>owner: {this.props.tool.user.username}</Card.Meta>
