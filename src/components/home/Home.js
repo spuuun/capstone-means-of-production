@@ -30,7 +30,6 @@ export default class Home extends Component {
         })
 
         LoanManager.getLoans().then(loans => {
-            console.log('loans', loans);
             this.setState({ loans: loans })
         }).then(() => this.parsedLoans())
 
@@ -54,12 +53,16 @@ export default class Home extends Component {
         })
     }
 
+    returnTool = (id) => {
+        LoanManager.updateLoan(id).then(r => console.log(r))
+    }
+
     parsedLoans = () => {
         const toolsBorrowed = this.state.loans.filter(loan => {
-            return this.state.activeUserId === loan.userId
+            return this.state.activeUserId === loan.userId && loan.dateReturned === null
         })
         const toolsLoaned = this.state.loans.filter(loan => {
-            return this.state.activeUserId === loan.tool.userId
+            return this.state.activeUserId === loan.tool.userId && loan.dateReturned === null
         })
         this.setState({ borrowed: toolsBorrowed, loaned: toolsLoaned })
     }
@@ -125,6 +128,8 @@ export default class Home extends Component {
                                         return <LoanCard
                                             key={loan.id}
                                             loan={loan}
+                                            activeUserId={this.state.activeUserId}
+                                            returnTool={this.returnTool}
                                         />
 
                                     })}
@@ -139,10 +144,12 @@ export default class Home extends Component {
                                 </Accordion.Title>
                             <Accordion.Content active={this.state.activeIndex === 2}>
                                 <Container className='borrowed'>
-                                    {this.state.borrowed.map(tool => {
+                                    {this.state.borrowed.map(loan => {
                                         return <LoanCard
-                                            key={tool.id}
-                                            loan={tool}
+                                            key={loan.id}
+                                            loan={loan}
+                                            activeUserId={this.state.activeUserId}
+                                            returnTool={this.returnTool}
                                         />
                                     })}
                                 </Container>
