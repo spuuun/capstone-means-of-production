@@ -8,7 +8,7 @@ export default class extends Component {
 
     state = {
         search: '',
-        filterBy: 'all',
+        filterBy: 'tools',
         activeButtonIndex: 0,
         toolResults: [],
         projectResults: []
