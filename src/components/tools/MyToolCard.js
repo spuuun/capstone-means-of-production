@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Card, Image, CardContent, Button } from 'semantic-ui-react'
 import './ToolCard.css'
 import LoanManager from '../../modules/LoanManager';
+import EditToolForm from './EditToolForm';
 
 class MyToolCard extends Component {
 
@@ -21,10 +22,7 @@ class MyToolCard extends Component {
                 <CardContent extra>
                     loaned out? {!this.props.tool.isAvailable ? `Yas` : "No"}
                     <>
-                        <Button type='button'
-                            content='edit tool'
-                        // onClick={this.props.editTool}
-                        />
+                        <EditToolForm tool={this.props.tool} />
                         <Button type='button'
                             onClick={this.props.deleteTool}
                             content='delete tool' />
