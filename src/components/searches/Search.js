@@ -8,8 +8,8 @@ export default class extends Component {
 
     state = {
         search: '',
-        filterBy: '',
-        activeButtonIndex: -1,
+        filterBy: 'all',
+        activeButtonIndex: 0,
         toolResults: [],
         projectResults: []
     }
@@ -17,11 +17,29 @@ export default class extends Component {
     handleSearch = e => {
         this.setState({ search: e.target.value })
 
+        console.log(this.state)
+
         this.state.filterBy === "tools"
-            && SearchManager.searchTools(this.state.search).then(tools => this.setState({ toolResults: tools }))
+            && SearchManager.searchTools(this.state.search)
+                .then(tools => this.setState({ toolResults: tools }))
 
         this.state.filterBy === "projects"
-            && SearchManager.searchProjects(this.state.search).then(projects => this.setState({ projectResults: projects }))
+            && SearchManager.searchProjects(this.state.search)
+                .then(projects => {
+                    console.log(projects)
+                    this.setState({ projectResults: projects })
+                })
+
+        // this.state.filterBy === "all"
+        //     && SearchManager.searchProjects(this.state.search)
+        //         .then(tools => this.setState({ toolResults: tools }))
+        //         .then(() => {
+        //             SearchManager.searchProjects(this.state.search)
+        //         })
+        //         .then(projects => {
+        //             console.log(projects)
+        //             this.setState({ projectResults: projects })
+        //         })
     }
 
     render() {
@@ -43,12 +61,14 @@ export default class extends Component {
                             icon='search'
                             iconPosition='left'
                             type='text'
-                            onChange={this.handleSearch}
+                            onChange={(e) => this.setState({ search: e.target.value })}
                             placeholder='search...'
                             onClick={() => console.log(this.state)}
                         />
-                        <Button.Group>
+                        <Button content='search' onClick={this.handleSearch} />
+                        <Button.Group floated='right'>
                             <Button
+                                floated='right'
                                 active={0 === this.state.activeButtonIndex}
                                 content='tools'
                                 value='tools'
@@ -58,6 +78,7 @@ export default class extends Component {
                                 }}
                             />
                             <Button
+                                floated='right'
                                 active={1 === this.state.activeButtonIndex}
                                 content='projects'
                                 value='projects'
@@ -66,7 +87,8 @@ export default class extends Component {
                                     this.setState({ filterBy: e.target.value, activeButtonIndex: 1 })
                                 }}
                             />
-                            <Button
+                            {/* <Button
+                                floated='right'
                                 active={2 === this.state.activeButtonIndex}
                                 content='all'
                                 value='all'
@@ -74,25 +96,23 @@ export default class extends Component {
                                 onClick={(e) => {
                                     this.setState({ filterBy: e.target.value, activeButtonIndex: 2 })
                                 }}
-                            />
+                            /> */}
                         </Button.Group>
                         {/* <Dropdown onChange={(e) => console.log(e.target.value)} button basic floating options={searchOptions} defaultValue='tools' /> */}
                     </Grid.Row>
-                </Grid>
-                <Container>
-                    {this.state.toolResults.map(tool => {
+                    {this.state.toolResults.length > 0 && this.state.toolResults.map(tool => {
                         return <ToolCard
                             key={tool.id}
                             tool={tool}
                         />
                     })}
-                    {this.state.projectResults.map(project => {
+                    {this.state.projectResults.length > 0 && this.state.projectResults.map(project => {
                         return <ProjectCard
                             key={project.id}
                             project={project}
                         />
                     })}
-                </Container>
+                </Grid>
             </div>
         )
     }
