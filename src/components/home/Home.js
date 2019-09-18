@@ -17,8 +17,10 @@ export default class Home extends Component {
         loans: [],
         borrowed: [],
         loaned: [],
-        activeIndex: -1
+        activeIndex: -1,
+        showModal: false
     }
+
     componentDidMount() {
         const activeUser = JSON.parse(sessionStorage.getItem('activeUser'))
         this.setState({ activeUserId: activeUser.activeUserId, username: activeUser.username })
@@ -32,6 +34,24 @@ export default class Home extends Component {
             this.setState({ loans: loans })
         }).then(() => this.parsedLoans())
 
+    }
+
+    deleteTool = id => {
+        ToolManager.delete(id)
+            .then(() => {
+                ToolManager.getAllTools()
+                    .then((newTools) => {
+                        this.setState({
+                            tools: newTools
+                        })
+                    })
+            })
+    }
+
+    refreshTools = () => {
+        ToolManager.getMyTools(this.state.activeUserId).then(tools => {
+            this.setState({ myTools: tools, activeIndex: 0 })
+        })
     }
 
     parsedLoans = () => {
@@ -76,7 +96,7 @@ export default class Home extends Component {
                                 onClick={this.handleClick}>
                                 <Icon name='dropdown' />
                                 My Tools
-                                </Accordion.Title>
+                            </Accordion.Title>
                             <Accordion.Content active={this.state.activeIndex === 0}>
                                 <Container>
                                     <div className='my-tools'>
@@ -85,7 +105,8 @@ export default class Home extends Component {
                                                 key={tool.id}
                                                 tool={tool}
                                                 deleteTool={this.deleteTool}
-                                                activeUserId={this.props.activeUserId}
+                                                activeUserId={this.state.activeUserId}
+                                                refreshTools={this.refreshTools}
                                             />
                                         })}
                                     </div>

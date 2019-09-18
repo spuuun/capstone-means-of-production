@@ -6,10 +6,6 @@ import EditToolForm from './EditToolForm';
 
 class MyToolCard extends Component {
 
-    componentDidMount() {
-        console.log('hey');
-    }
-
     render() {
         return (
             <Card className='tool-card'>
@@ -22,7 +18,7 @@ class MyToolCard extends Component {
                 <CardContent extra>
                     loaned out? {!this.props.tool.isAvailable ? `Yas` : "No"}
                     <>
-                        <EditToolForm tool={this.props.tool} />
+                        <EditToolForm tool={this.props.tool} refreshTools={this.props.refreshTools} />
                         <Button type='button'
                             onClick={this.props.deleteTool}
                             content='delete tool' />
