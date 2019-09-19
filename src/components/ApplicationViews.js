@@ -18,6 +18,10 @@ class ApplicationViews extends Component {
         activeUserId: null
     }
 
+    setActiveUserId = (id) => {
+        this.setState({ activeUserId: id })
+    }
+
     isAuthenticated() {
         if (sessionStorage.getItem('activeUser') !== null || localStorage.getItem('activeUser') !== null) {
             return true
@@ -28,6 +32,7 @@ class ApplicationViews extends Component {
     }
 
     componentDidMount() {
+        console.log('applicationViews did mount -- activeuserId', this.state.activeUserId);
         const userSessionInfo = JSON.parse(sessionStorage.getItem('activeUser'));
         const userLocalInfo = JSON.parse(localStorage.getItem('activeUser'));
         if (this.isAuthenticated()) {
@@ -60,10 +65,10 @@ class ApplicationViews extends Component {
                     return <NewUserForm {...props} />
                 }} />
                 <Route exact path="/login" render={(props) => {
-                    return <LoginForm isAuthenticated={this.isAuthenticated} {...props} />
+                    return <LoginForm isAuthenticated={this.isAuthenticated} setActiveUserId={this.setActiveUserId} {...props} />
                 }} />
                 <Route exact path="/register" render={(props) => {
-                    return <RegisterForm {...props} />
+                    return <RegisterForm {...props} setActiveUserId={this.setActiveUserId} />
                 }} />
                 <Route exact path='/tools' render={(props) => {
                     return (

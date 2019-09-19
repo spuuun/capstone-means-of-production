@@ -8,8 +8,7 @@ class ToolList extends Component {
     //define what this component needs to render
     state = {
         tools: [],
-        notMyTools: [],
-        activeUserId: null
+        notMyTools: []
     }
 
     componentDidMount() {

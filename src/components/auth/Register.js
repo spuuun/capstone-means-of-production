@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import UserManager from '../../modules/UserManager'
 // import LoginForm from './Login'
-import { Button, Header, Form } from 'semantic-ui-react'
+import { Button, Header, Form, Grid } from 'semantic-ui-react'
 
 class Register extends Component {
 
@@ -12,7 +12,7 @@ class Register extends Component {
         registerPassword: '',
         confirmPassword: '',
         email: '',
-        streetAddress: '',
+        address: '',
         city: '',
         state: '',
         zip: 0,
@@ -59,16 +59,6 @@ class Register extends Component {
     setAppropriateStorage = () => { this.state.remember ? this.setLocalAndSession() : this.setSessionOnly() }
 
     handleRegister = () => {
-        // evt.preventDefault()
-        // UserManager.getAllUsers()
-        // .then(users => {
-        //     const matchingUser = users.find(user => {
-        //         return user.username === this.state.username
-        //     })
-        //     return matchingUser
-        // })
-        // .then(user => {
-        //     user.length > 0
         if (this.state.registerPassword === this.state.confirmPassword) {
             console.log('state before newUser Obj created', this.state)
             const newUser = {
@@ -83,7 +73,11 @@ class Register extends Component {
                 lastName: this.state.lastName,
                 createdOn: Date.now()
             }
-            UserManager.postNewUser(newUser).then(user => this.setState({ activeUserId: user.id }))
+            UserManager.postNewUser(newUser).then(user => {
+                this.setState({ activeUserId: user.id })
+                this.props.setActiveUserId(user.id)
+
+            })
                 .then(user => {
                     this.setAppropriateStorage()
                 })
@@ -102,152 +96,129 @@ class Register extends Component {
 
     render() {
         return (
-            // <div className="backdrop"
-            // // style={{ backdropStyle }}
-            // >
-            //     <div className="modal"
-            //     //  style={{ modalStyle }}
-            //     >
-            <>
-                <Header as="h1">
-                    register!
+            <Grid centered>
+                <Grid.Row centered>
+                    <Header as="h1">
+                        register...
+                    </Header>
+                    <Header as="h2">
+                        join the revolution of the working class!
             </Header>
-                <Header as="h2">
-                    join the revolution of the working class
-            </Header>
-                <Form>
-                    {this.props.children}
-                    <Form.Field>
-                        <label htmlFor="registerUsername">username</label>
-                        <input
-                            id="registerUsername"
-                            type="text"
-                            onChange={this.handleFieldChange}      //define this function!
-                            placeholder="enter username"
-                        />
-                    </Form.Field>
-                    <Form.Field>
-                        <label htmlFor="email">email</label>
-                        <input
-                            id="email"
-                            type="email"
-                            onChange={this.handleFieldChange}      //define this function!
-                            placeholder="enter your email"
-                        />
-                    </Form.Field>
-                    <Form.Field>
-                        <label htmlFor="registerPassword">password</label>
-                        <input
-                            id="registerPassword"
-                            type="password"
-                            onChange={this.handleFieldChange}      //define this function!
-                            placeholder="enter a password"
-                        />
-                    </Form.Field>
-                    <Form.Field>
-                        <label htmlFor="confirmPassword">confirm password</label>
-                        <input
-                            id="confirmPassword"
-                            type="password"
-                            onChange={this.handleFieldChange}      //define this function!
-                            placeholder="confirm your password"
-                        />
-                    </Form.Field>
-                    <Form.Field>
-                        <div className="footer">
-                            <Button
-                                type="button"
-                                disabled={this.state.loadingStatus}
-                                onClick={this.handleRegister}>register!</Button>
-                        </div>
-                        <input type="checkbox" id="remember" onChange={this.handleFieldChange} />
-                        <label htmlFor="remember">Remember me</label>
-                    </Form.Field>
-                </Form>
-            </>
+                </Grid.Row>
+                <Grid.Row>
+                    <Form>
+                        <Grid.Column verticalAlign='middle'>
+                            <Header as='h3'>your person</Header>
+                            {this.props.children}
+                            <Form.Field>
+                                <label htmlFor="registerUsername">username</label>
+                                <input
+                                    id="registerUsername"
+                                    type="text"
+                                    onChange={this.handleFieldChange}
+                                    placeholder="enter username"
+                                />
+                            </Form.Field>
+                            <Form.Field>
+                                <label htmlFor="firstName">first name</label>
+                                <input
+                                    id="firstName"
+                                    type="text"
+                                    onChange={this.handleFieldChange}
+                                    placeholder="first name"
+                                />
+                            </Form.Field>
+                            <Form.Field>
+                                <label htmlFor="lastName">last name</label>
+                                <input
+                                    id="lastName"
+                                    type="text"
+                                    onChange={this.handleFieldChange}
+                                    placeholder="lastName"
+                                />
+                            </Form.Field>
+                            <Form.Field>
+                                <label htmlFor="email">email</label>
+                                <input
+                                    id="email"
+                                    type="email"
+                                    onChange={this.handleFieldChange}
+                                    placeholder="enter your email"
+                                />
+                            </Form.Field>
+                            <Form.Field>
+                                <label htmlFor="registerPassword">password</label>
+                                <input
+                                    id="registerPassword"
+                                    type="password"
+                                    onChange={this.handleFieldChange}
+                                    placeholder="enter a password"
+                                />
+                            </Form.Field>
+                            <Form.Field>
+                                <label htmlFor="confirmPassword">confirm password</label>
+                                <input
+                                    id="confirmPassword"
+                                    type="password"
+                                    onChange={this.handleFieldChange}
+                                    placeholder="confirm your password"
+                                />
+                            </Form.Field>
+                        </Grid.Column>
+                        <Grid.Column verticalAlign='middle' floated='right'>
+                            <Header as='h3'>the location of your person</Header>
+                            <Form.Field>
+                                <label htmlFor="address">street address</label>
+                                <input
+                                    id="address"
+                                    type="text"
+                                    onChange={this.handleFieldChange}
+                                    placeholder="123 Abc Avenue"
+                                />
+                            </Form.Field>
+                            <Form.Field>
+                                <label htmlFor="city">city</label>
+                                <input
+                                    id="city"
+                                    type="text"
+                                    onChange={this.handleFieldChange}
+                                    placeholder="city"
+                                />
+                            </Form.Field>
+                            <Form.Field>
+                                <label htmlFor="state">state</label>
+                                <input
+                                    id="state"
+                                    type="text"
+                                    onChange={this.handleFieldChange}
+                                    placeholder="your state"
+                                />
+                            </Form.Field>
+                            <Form.Field>
+                                <label htmlFor="zip">zip</label>
+                                <input
+                                    id="zip"
+                                    type="text"
+                                    onChange={this.handleFieldChange}
+                                    placeholder="your 5-digit zip code"
+                                />
+                            </Form.Field>
+                        </Grid.Column>
+                        <Form.Field>
+                            <div className="footer">
+                                <Button
+                                    type="button"
+                                    disabled={this.state.loadingStatus}
+                                    onClick={this.handleRegister}>register!</Button>
+                            </div>
+                            <input type="checkbox" id="remember" onChange={this.handleFieldChange} />
+                            <label htmlFor="remember">Remember me</label>
+                        </Form.Field>
+                    </Form>
+                </Grid.Row>
+            </Grid>
         );
     }
 }
 
 export default Register
-
-// class Modal extends React.Component {
-//     render() {
-//         // Render nothing if the "show" prop is false
-//         if (!this.props.show) {
-//             return null;
-//         }
-
-//         // The gray background
-//         const backdropStyle = {
-//             position: 'fixed',
-//             top: 0,
-//             bottom: 0,
-//             left: 0,
-//             right: 0,
-//             backgroundColor: 'rgba(0,0,0,0.3)',
-//             padding: 50
-//         };
-
-//         // The modal "window"
-//         const modalStyle = {
-//             backgroundColor: '#fff',
-//             borderRadius: 5,
-//             maxWidth: 500,
-//             minHeight: 300,
-//             margin: '0 auto',
-//             padding: 30
-//         };
-
-//         return (
-//             <div className="backdrop" style={{ backdropStyle }}>
-//                 <div className="modal" style={{ modalStyle }}>
-//                     {this.props.children}
-//                     <input
-//                         id="registerUsername"
-//                         type="text"
-//                         onChange={this.handleFieldChange}      //define this function!
-//                         placeholder="enter username"
-//                     />
-//                     <label htmlFor="registerUsername">username</label>
-//                     <input
-//                         id="registerEmail"
-//                         type="email"
-//                         onChange={this.handleFieldChange}      //define this function!
-//                         placeholder="enter your email"
-//                     />
-//                     <label htmlFor="registerEmail">email</label>
-//                     <input
-//                         id="registerPassword"
-//                         type="password"
-//                         onChange={this.handleFieldChange}      //define this function!
-//                         placeholder="enter a password"
-//                     />
-//                     <label htmlFor="registerPassword">password</label>
-//                     <input
-//                         id="confirmPassword"
-//                         type="password"
-//                         onChange={this.handleFieldChange}      //define this function!
-//                         placeholder="confirm your password"
-//                     />
-//                     <label htmlFor="confirmPassword">confirm password</label>
-//                     <div className="footer">
-//                         {/* define onRegister() method */}
-//                         {/* <button onclick={this.props.onRegister}>register!</button>  */}
-//                         <button onClick={this.props.onClose}>
-//                             Close
-//                         </button>
-//                     </div>
-//                 </div>
-//             </div>
-//         );
-//     }
-// }
-
-// Modal.propTypes = {
-//     onClose: PropTypes.func.isRequired,
-//     show: PropTypes.bool,
-//     children: PropTypes.node
-// };
-
-// export default Modal;

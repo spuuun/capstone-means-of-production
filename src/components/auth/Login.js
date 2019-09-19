@@ -64,10 +64,9 @@ class LoginForm extends Component {
         this.setState({ loadingStatus: true })
         UserManager.getAllUsers()
             .then(users => {
-                console.log('getAllUsers results on login', users);
+                console.log(users)
                 const currentUser = users.find(user => {
-                    return user.username === this.state.username
-                    // && user.password === this.state.password
+                    return user.username === this.state.username && user.password === this.state.password
                 })
                 console.log('currentUser', currentUser);
                 if (currentUser !== undefined) {
@@ -75,6 +74,8 @@ class LoginForm extends Component {
                     // this.setState({ activeUserId: currentUser.id, remember: this. })
                     this.setState({ activeUserId: currentUser.id })
                     this.setAppropriateStorage()
+                    this.props.setActiveUserId(currentUser.id)
+
                     // this.props.loadData(currentUser.id)
                 }
                 else {

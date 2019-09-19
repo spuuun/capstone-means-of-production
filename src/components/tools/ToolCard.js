@@ -17,8 +17,8 @@ class ToolCard extends Component {
                     available: {this.props.tool.isAvailable ? "Yes" : "No"}
                     {this.props.tool.userId === this.props.activeUserId ?
                         <>
-                            <Button type='button'
-                                content='edit tool' />
+                            {/* <Button type='button'
+                                content='edit tool' /> */}
                             <Button type='button'
                                 onClick={() => { this.props.deleteTool(this.props.tool.id) }}
                                 content='delete tool' />
