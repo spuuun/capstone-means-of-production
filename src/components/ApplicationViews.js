@@ -10,6 +10,7 @@ import AddToolForm from './tools/AddToolForm'
 import ProjectForm from './projects/ProjectForm'
 import ProjectList from './projects/ProjectList'
 import Search from './searches/Search'
+import ProjectEditForm from './projects/ProjectEditForm'
 
 
 class ApplicationViews extends Component {
@@ -82,7 +83,7 @@ class ApplicationViews extends Component {
                 <Route exact path='/projects' render={(props) => {
                     return (
                         this.isAuthenticated()
-                            ? <ProjectList {...props} />
+                            ? <ProjectList {...props} activeUserId={this.state.activeUserId} />
                             : <Redirect to='/login' />
                     )
                 }} />
@@ -100,6 +101,11 @@ class ApplicationViews extends Component {
                             : <Redirect to="/login" />
                     )
                 }} />
+                <Route
+                    path="/projects/:projectId(\d+)/edit" render={props => {
+                        return <ProjectEditForm {...props} />
+                    }}
+                />
                 <Route exact path='/search' render={(props) => {
                     return (
                         this.isAuthenticated()

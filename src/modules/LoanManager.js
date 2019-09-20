@@ -13,6 +13,14 @@ export default {
             body: JSON.stringify(newLoan)
         }).then(data => data.json())
     },
+    deleteLoan(id) {
+        return fetch(`${remoteURL}/toolHistory/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(data => data.json())
+    },
     returnLoan(id) {
         return fetch(`${remoteURL}/toolHistory/${id}`, {
             method: "PATCH",

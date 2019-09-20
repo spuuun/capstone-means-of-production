@@ -12,7 +12,9 @@ class ProjectCard extends Component {
                     <Card.Header>{this.props.project.projectName}</Card.Header>
                     <Card.Description>{this.props.project.projectDescription}</Card.Description>
                     {/* <Link to={`/projects/${this.props.project.id}`}><button>Details</button></Link> */}
-                    <Button type='button' content='delete' onClick={() => { this.props.deleteProject(this.props.project.id) }} />
+                    {this.props.activeUserId === this.props.project.userId && <Button type='button' content='delete' onClick={() => { this.props.deleteProject(this.props.project.id) }} />}
+                    {this.props.activeUserId === this.props.project.userId && <Button type="button"
+                        onClick={() => { this.props.history.push(`/projects/${this.props.project.id}/edit`) }}>Edit</Button>}
                 </CardContent>
             </Card>
         );

@@ -38,14 +38,31 @@ export default class Home extends Component {
 
     deleteTool = id => {
         ToolManager.delete(id)
+            // .then(() => {
+            //     ToolManager.getAllTools()
+            //         .then((newTools) => {
+            //             this.setState({
+            //                 tools: newTools
+            //             })
+            //         })
+            // })
             .then(() => {
-                ToolManager.getAllTools()
-                    .then((newTools) => {
-                        this.setState({
-                            tools: newTools
+                ToolManager.getMyTools(this.state.activeUserId)
+                    .then(tools => {
+                        this.setState({ myTools: tools })
+                    })
+            })
+            .then(() => {
+                LoanManager.getLoans()
+                    .then(loans => {
+                        loans.map(loan => {
+                            loan.toolId === id && LoanManager.delete(loan.id)
                         })
                     })
             })
+            .then(() => LoanManager.getLoans())
+            .then(loans => this.setState({ loans: loans }))
+            .then(() => this.parsedLoans())
     }
 
     refreshTools = () => {
@@ -168,7 +185,9 @@ export default class Home extends Component {
                             <button type='button'>add a new project</button>
                         </Link>
                         <Container>
-                            <ProjectList />
+                            <ProjectList
+                                activeUserId={this.state.activeUserId}
+                            />
                         </Container>
                     </Grid.Column>
                 </Grid>
