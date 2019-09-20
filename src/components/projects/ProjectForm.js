@@ -10,7 +10,7 @@ class ProjectForm extends Component {
     state = {
         projectName: '',
         projectDescription: '',
-        creatorId: null,
+        userId: null,
         statusId: null,
         completionDate: '',
         statusOptions: []
@@ -19,7 +19,7 @@ class ProjectForm extends Component {
     componentDidMount() {
         const sessionStorageId = JSON.parse(sessionStorage.getItem('activeUser'))
         const localStorageId = JSON.parse(localStorage.getItem('activeUser'))
-        sessionStorageId !== null ? this.setState({ creatorId: sessionStorageId.activeUserId }) : (localStorageId !== null ? this.setState({ creatorId: localStorageId.activeUserId }) : window.alert('something has gone wrong'))
+        sessionStorageId !== null ? this.setState({ userId: sessionStorageId.activeUserId }) : (localStorageId !== null ? this.setState({ userId: localStorageId.activeUserId }) : window.alert('something has gone wrong'))
 
         ProjectManager.getAllStatus()
             .then(status => {
@@ -36,7 +36,7 @@ class ProjectForm extends Component {
     }
     submitProjectForm = () => {
         const newProject = {
-            creatorId: this.state.creatorId,
+            userId: this.state.userId,
             projectName: this.state.projectName,
             projectDescription: this.state.projectDescription,
             statusId: this.state.statusId,

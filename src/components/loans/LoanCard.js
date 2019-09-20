@@ -2,28 +2,54 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Icon, List, Button } from 'semantic-ui-react'
 import '../tools/ToolCard.css'
+import UserManager from '../../modules/UserManager';
 
 class LoanCard extends Component {
 
+    state = {
+        ownerName: ''
+    }
+
+    componentDidMount() {
+        this.getOwnerName(this.props.loan.tool.userId)
+    }
+
+    getOwnerName = (id) => {
+        UserManager.getSingleUser(id)
+            .then(user => {
+                this.setState({ ownerName: user.username })
+            })
+    }
+
     render() {
+        // const userName = this.getOwnerName(this.props.loan.tool.userId)
+        // console.log(userName);
         return (
-            <>
-                <List>
-                    <List.Item icon='user' content={this.props.loan.user.username} />
-                    <List.Item icon='microchip' content={this.props.loan.tool.model} />
-                    <List.Item icon='pin' content={this.props.loan.tool.userId} />
-                    <List.Item icon='clock' content={this.props.loan.dateBorrowed} />
-                </List>
-                {this.props.loan.userId === this.props.activeUserId
-                    && <Button
+            this.props.loan.userId === this.props.activeUserId ?
+                <>
+                    <List>
+                        {/* <List.Item icon='user' content={this.props.loan.user.username} /> */}
+                        <List.Item content='tool: ' />
+                        <List.Item icon='legal' content={this.props.loan.tool.model} />
+                        <List.Item content='owner: ' />
+                        <List.Item icon='user' content={this.state.ownerName} />
+                        {/* <List.Item icon='clock' content={this.props.loan.dateBorrowed} /> */}
+                    </List>
+                    <Button
                         type='button'
                         content='return tool'
                         onClick={() => this.props.returnTool(this.props.loan)} />
-                }
-                {/* {this.props.loan.tool.userId === this.props.activeUserId
-                    && <Button type='button' content='my tool' />} */}
-
-            </>
+                </> :
+                <>
+                    <List>
+                        {/* <List.Item icon='user' content={this.props.loan.user.username} /> */}
+                        <List.Item content='tool: ' />
+                        <List.Item icon='legal' content={this.props.loan.tool.model} />
+                        <List.Item content='loaned to: ' />
+                        <List.Item icon='user' content={this.props.loan.user.username} />
+                        {/* <List.Item icon='clock' content={this.props.loan.dateBorrowed} /> */}
+                    </List>
+                </>
 
         );
     }

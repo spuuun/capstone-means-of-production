@@ -4,6 +4,18 @@ export default {
     getAllStatus() {
         return fetch(`${remoteURL}/status`).then(result => result.json())
     },
+    getSingleProject(id) {
+        return fetch(`${remoteURL}/projects/${id}`).then(p => p.json())
+    },
+    updateProject(projectObj) {
+        return fetch(`${remoteURL}/projects/${projectObj.id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(projectObj)
+        }).then(d => d.json())
+    },
     postNewProject(newProject) {
         return fetch(`${remoteURL}/projects`, {
             method: "POST",

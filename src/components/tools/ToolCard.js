@@ -23,14 +23,15 @@ class ToolCard extends Component {
                                 onClick={() => { this.props.deleteTool(this.props.tool.id) }}
                                 content='delete tool' />
                         </>
-                        : this.props.tool.isAvailable
-                            ?
-                            <Button type='button'
-                                onClick={() => this.props.checkoutTool(this.props.tool)}
-                                content='checkout' /> :
-                            <Button
+                        :
+                        this.props.tool.isAvailable
+                        &&
+                        <Button type='button'
+                            onClick={() => this.props.checkoutTool(this.props.tool)}
+                            content='checkout' />}
+                    {/* : <Button
                                 type='button'
-                                content='place hold' />}
+                                content='place hold' />} */}
                 </CardContent>
             </Card>
         )

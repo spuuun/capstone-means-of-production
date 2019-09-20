@@ -47,6 +47,8 @@ class ProjectList extends Component {
                             key={project.id}
                             project={project}
                             deleteProject={this.deleteProject}
+                            activeUserId={this.props.activeUserId}
+                            {...this.props}
                         />
                     )}
                 </div>
