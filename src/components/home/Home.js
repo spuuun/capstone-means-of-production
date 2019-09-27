@@ -38,14 +38,6 @@ export default class Home extends Component {
 
     deleteTool = id => {
         ToolManager.delete(id)
-            // .then(() => {
-            //     ToolManager.getAllTools()
-            //         .then((newTools) => {
-            //             this.setState({
-            //                 tools: newTools
-            //             })
-            //         })
-            // })
             .then(() => {
                 ToolManager.getMyTools(this.state.activeUserId)
                     .then(tools => {
