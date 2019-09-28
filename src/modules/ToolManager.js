@@ -10,7 +10,6 @@ export default {
     getMyTools(activeUserId) {
         return fetch(`${remoteURL}/tools?_expand=user&userId=${activeUserId}`).then(result => result.json())
     },
-    //will need a method for getting tools that are checked out --- either by me, or my tools that're checked out by others
     delete(id) {
         return fetch(`http://localhost:5002/tools/${id}`, {
             method: "DELETE"

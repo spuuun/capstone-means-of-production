@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
-// import { withRouter } from 'react-router-dom';
-import { Header, Form, Grid, Button, Checkbox, TextArea } from 'semantic-ui-react';
-// import { saveProfile } from '../APIManager/profiles';
-// import * as firebase from 'firebase/app';
-// import 'firebase/storage';
+import { withRouter } from 'react-router-dom';
+import { Header, Form, Grid, Button, TextArea } from 'semantic-ui-react';
+import * as firebase from 'firebase/app';
+import 'firebase/storage';
 import ToolManager from '../../modules/ToolManager';
 
 class AddToolForm extends Component {
     state = {
         model: '',
-        manual: null,
+        // manual: null,
         ownerId: null,
-        description: ''
+        description: '',
+        photo: null
     }
 
     componentDidMount() {
@@ -19,16 +19,27 @@ class AddToolForm extends Component {
         const localStorageId = JSON.parse(localStorage.getItem('activeUser'))
         sessionStorageId !== null ? this.setState({ ownerId: sessionStorageId.activeUserId }) : (localStorageId !== null ? this.setState({ ownerId: localStorageId.activeUserId }) : window.alert('something has gone wrong'))
     }
+
     submitToolForm = () => {
-        const newTool = {
-            userId: this.state.ownerId,
-            model: this.state.model,
-            manual: this.state.manual,
-            isAvailable: true,
-            description: this.state.description
-        }
-        ToolManager.postNewTool(newTool).then(() => this.props.history.push("/tools"))
+        // step 1: save img to firebase
+        //step 2: get url from firebase
+        // step 3: save everything to json-server
+        const imagesRef = firebase.storage().ref('images');
+        const childRef = imagesRef.child(`${this.state.model}-${Date.now()}`)
+        childRef.put(this.state.photo)
+            .then(response => response.ref.getDownloadURL())
+            .then(url => {
+                return ToolManager.postNewTool({
+                    userId: this.state.ownerId,
+                    model: this.state.model,
+                    // manual: this.state.manual,
+                    isAvailable: true,
+                    description: this.state.description,
+                    photoUrl: url
+                })
+            }).then(() => this.props.history.push('/tools'));
     }
+
     render() {
         console.log('this.state at render', this.state);
         return (
@@ -42,6 +53,11 @@ class AddToolForm extends Component {
                             <Form>
                                 <Form.Field
                                     control="input"
+                                    type="file"
+                                    label="Tool Photo"
+                                    onChange={(e) => this.setState({ photo: e.target.files[0] })} />
+                                <Form.Field
+                                    control="input"
                                     type="text"
                                     label="model"
                                     onChange={(e) => this.setState({ model: e.target.value })}
@@ -50,30 +66,8 @@ class AddToolForm extends Component {
                                 <TextArea
                                     label="additional notes"
                                     onChange={(e) => this.setState({ description: e.target.value })}
-                                    placeholder="include any notes or special instructions her" />
-                                <Form.Field>
-                                    accompanying manual?
-                                </Form.Field>
-                                <Form.Field>
-                                    <Checkbox
-                                        radio
-                                        label='yes'
-                                        name='checkboxRadioGroup'
-                                        value='true'
-                                        checked={this.state.manual === 'true'}
-                                        onChange={(e) => this.setState({ manual: e.target.value })}
-                                    />
-                                </Form.Field>
-                                <Form.Field>
-                                    <Checkbox
-                                        radio
-                                        label='no'
-                                        name='checkboxRadioGroup'
-                                        value='false'
-                                        checked={this.state.manual === 'false'}
-                                        onChange={(e) => this.setState({ manual: e.target.value })}
-                                    />
-                                </Form.Field>
+                                    placeholder="include any notes or special instructions here" />
+                                {/* ADD DROPDOWN FOR TOOL CATEGORY */}
                                 <Button type="button" content='add tool' onClick={this.submitToolForm} />
                             </Form>
                         </Grid.Column>
@@ -84,4 +78,32 @@ class AddToolForm extends Component {
     }
 }
 
-export default AddToolForm
+export default withRouter(AddToolForm)
+
+//-------------------------------------------//
+//   form checkboxes for tool manual below   //  
+//-------------------------------------------//
+
+    // < Form.Field >
+    // accompanying manual ?
+    //                             </Form.Field >
+    // <Form.Field>
+    //     <Checkbox
+    //         radio
+    //         label='yes'
+    //         name='checkboxRadioGroup'
+    //         value='true'
+    //         checked={this.state.manual === 'true'}
+    //         onChange={(e) => this.setState({ manual: e.target.value })}
+    //     />
+    // </Form.Field>
+    // <Form.Field>
+    //     <Checkbox
+    //         radio
+    //         label='no'
+    //         name='checkboxRadioGroup'
+    //         value='false'
+    //         checked={this.state.manual === 'false'}
+    //         onChange={(e) => this.setState({ manual: e.target.value })}
+    //     />
+    // </Form.Field>

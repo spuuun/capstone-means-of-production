@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Container, Button, Grid, Accordion, Icon } from 'semantic-ui-react'
+import { Container, Button, Grid, Accordion, Icon, Header } from 'semantic-ui-react'
 import ToolManager from '../../modules/ToolManager'
 import ToolCard from '../tools/ToolCard'
 import MyToolCard from '../tools/MyToolCard'
@@ -38,14 +38,6 @@ export default class Home extends Component {
 
     deleteTool = id => {
         ToolManager.delete(id)
-            // .then(() => {
-            //     ToolManager.getAllTools()
-            //         .then((newTools) => {
-            //             this.setState({
-            //                 tools: newTools
-            //             })
-            //         })
-            // })
             .then(() => {
                 ToolManager.getMyTools(this.state.activeUserId)
                     .then(tools => {
@@ -106,11 +98,7 @@ export default class Home extends Component {
             <div>
                 <Grid columns={2} padded>
                     <Grid.Row centered>
-                        <div>
-                            <p> Welcome </p>
-                            <h1>{this.state.username}!</h1>
-                            <p> This is the home/profile page for registered and logged in user!</p>
-                        </div>
+                        <Header as='h2'>Welcome {this.state.username}!</Header>
                     </Grid.Row>
                     <Grid.Column>
                         <Link to='/tools/new'>
