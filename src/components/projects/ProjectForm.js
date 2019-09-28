@@ -13,7 +13,9 @@ class ProjectForm extends Component {
         statusId: null,
         completionDate: '',
         statusOptions: [],
-        photo: null
+        photo: null,
+        loadingStatus: true,
+        myProjects: []
     }
 
     componentDidMount() {
@@ -30,12 +32,12 @@ class ProjectForm extends Component {
                         text: status.statusName
                     }
                 })
-                console.log(statusNames);
-                this.setState({ statusOptions: statusNames })
+                this.setState({ statusOptions: statusNames, loadingStatus: false })
             })
     }
 
     submitProjectForm = () => {
+        this.setState({ loadingStatus: true })
         // step 1: save img to firebase
         //step 2: get url from firebase
         // step 3: save everything to json-server
@@ -102,7 +104,7 @@ class ProjectForm extends Component {
                                         onChange={(e) => this.setState({ statusId: e.target.value })}
                                     />
                                 </Form.Field>
-                                <Button type="button" content='add project' onClick={this.submitProjectForm} />
+                                <Button type="button" disabled={this.state.loadingStatus} content='add project' onClick={this.submitProjectForm} />
                             </Form>
                         </Grid.Column>
                     </Grid.Row>

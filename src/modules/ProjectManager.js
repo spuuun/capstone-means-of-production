@@ -4,6 +4,9 @@ export default {
     getAllStatus() {
         return fetch(`${remoteURL}/status`).then(result => result.json())
     },
+    getMyProjects(userId) {
+        return fetch(`${remoteURL}/projects?userId=${userId}`).then(p => p.json())
+    },
     getSingleProject(id) {
         return fetch(`${remoteURL}/projects/${id}`).then(p => p.json())
     },

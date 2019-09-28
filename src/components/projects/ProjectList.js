@@ -47,6 +47,7 @@ class ProjectList extends Component {
                             project={project}
                             deleteProject={this.deleteProject}
                             activeUserId={this.props.activeUserId}
+                            parentUrl={'/projects'}
                             {...this.props}
                         />
                     )}

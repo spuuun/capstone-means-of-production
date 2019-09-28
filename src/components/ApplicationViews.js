@@ -33,7 +33,6 @@ class ApplicationViews extends Component {
     }
 
     componentDidMount() {
-        console.log('applicationViews did mount -- activeuserId', this.state.activeUserId);
         const userSessionInfo = JSON.parse(sessionStorage.getItem('activeUser'));
         const userLocalInfo = JSON.parse(localStorage.getItem('activeUser'));
         if (this.isAuthenticated()) {

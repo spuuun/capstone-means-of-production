@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { Container, Button, Grid, Accordion, Icon, Header } from 'semantic-ui-react'
 import ToolManager from '../../modules/ToolManager'
 import ToolCard from '../tools/ToolCard'
@@ -8,8 +8,10 @@ import '../tools/ToolCard.css'
 import LoanManager from '../../modules/LoanManager'
 import LoanCard from '../loans/LoanCard'
 import ProjectList from '../projects/ProjectList'
+import ProjectManager from '../../modules/ProjectManager'
+import ProjectCard from '../projects/ProjectCard'
 
-export default class Home extends Component {
+class Home extends Component {
 
     state = {
         activeUserId: null,
@@ -19,7 +21,8 @@ export default class Home extends Component {
         borrowed: [],
         loaned: [],
         activeIndex: -1,
-        showModal: false
+        showModal: false,
+        myProjects: []
     }
 
     componentDidMount() {
@@ -34,6 +37,23 @@ export default class Home extends Component {
             this.setState({ loans: loans })
         }).then(() => this.parsedLoans())
 
+        ProjectManager.getMyProjects(activeUser.activeUserId).then(myProjects => {
+            console.log('myProjects results', myProjects);
+            this.setState({ myProjects: myProjects })
+        })
+
+    }
+
+    deleteProject = id => {
+        ProjectManager.delete(id)
+            .then(() => {
+                ProjectManager.getMyProjects(this.state.activeUserId)
+                    .then((newProjects) => {
+                        this.setState({
+                            myProjects: newProjects
+                        })
+                    })
+            })
     }
 
     deleteTool = id => {
@@ -173,13 +193,23 @@ export default class Home extends Component {
                             <button type='button'>add a new project</button>
                         </Link>
                         <Container>
-                            <ProjectList
-                                activeUserId={this.state.activeUserId}
-                            />
+                            {this.state.myProjects && this.state.myProjects.map(project => {
+                                return <ProjectCard
+                                    key={project.id}
+                                    project={project}
+                                    activeUserId={this.state.activeUserId}
+                                    deleteProject={this.deleteProject}
+                                    parentUrl={'/'}
+                                    {...this.props}
+                                />
+                            })}
                         </Container>
+
                     </Grid.Column>
                 </Grid>
             </div >
         )
     }
 }
+
+export default withRouter(Home)
