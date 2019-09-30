@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // import { Link } from 'react-router-dom';
-import { List, Button } from 'semantic-ui-react'
+import { List, Button, Image } from 'semantic-ui-react'
 import '../tools/ToolCard.css'
 import UserManager from '../../modules/UserManager';
 
@@ -27,11 +27,24 @@ class LoanCard extends Component {
             this.props.loan.userId === this.props.activeUserId ?
                 <>
                     <List>
+                        <List.Item>
+                            <Image avatar src={this.state.owner.photo} />
+                            <List.Content>
+                                <List.Header>{this.state.ownerName} <span className='ital owner-label'>(owner)</span></List.Header>
+                                <List.Description>
+                                    Due Back
+                                        on *DUEDATE*
+                                        at *LINK to 'owner.location'*
+                                </List.Description>
+                            </List.Content>
+                        </List.Item>
+
+
                         {/* <List.Item icon='user' content={this.props.loan.user.username} /> */}
-                        <List.Item content='tool: ' />
+                        {/* <List.Item content='tool: ' />
                         <List.Item icon='legal' content={this.props.loan.tool.model} />
                         <List.Item content='owner: ' />
-                        <List.Item icon='user' content={this.state.ownerName} />
+                        <List.Item icon='user' content={this.state.ownerName} /> */}
                         {/* <List.Item icon='clock' content={this.props.loan.dateBorrowed} /> */}
                     </List>
                     <Button
