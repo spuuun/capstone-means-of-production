@@ -1,7 +1,8 @@
 import React, { Component } from "react"
-import { Link, Redirect } from "react-router-dom"
-import { Button, Form, Header, Input, Checkbox, Grid, Divider } from 'semantic-ui-react'
+// import { Link, Redirect } from "react-router-dom"
+import { Button, Form, Header, Checkbox, Grid, Divider, Container } from 'semantic-ui-react'
 import UserManager from "../../modules/UserManager"
+import './Auth.css'
 
 
 class LoginForm extends Component {
@@ -12,10 +13,6 @@ class LoginForm extends Component {
         remember: false,
         loadingStatus: false,
         activeUserId: 0
-    }
-
-    componentDidMount() {
-        // console.log(this.props.isAuthenticated());
     }
 
     handleFieldChange = evt => {
@@ -69,12 +66,9 @@ class LoginForm extends Component {
                 })
                 if (currentUser !== undefined) {
                     // Create the user and redirect user to her/his home
-                    // this.setState({ activeUserId: currentUser.id, remember: this. })
                     this.setState({ activeUserId: currentUser.id })
                     this.setAppropriateStorage()
                     this.props.setActiveUserId(currentUser.id)
-
-                    // this.props.loadData(currentUser.id)
                 }
                 else {
                     // would like to do something different than window.alert()
@@ -89,7 +83,7 @@ class LoginForm extends Component {
 
     render() {
         return (
-            <>
+            <Container>
                 <Header textAlign='left' as='h1'>
                     Means
                 </Header>
@@ -99,50 +93,48 @@ class LoginForm extends Component {
                 <Header textAlign='right' as='h1'>
                     Production
                 </Header>
-                <Form>
-                    <Grid.Column
-                        verticalAlign='center'
-                    // floated='right'
-                    >
-                        <Form.Field>
-                            <Input
+                <Form className='login-form form'>
+                    <Grid columns={1} verticalAlign='middle'>
+                        <Grid.Column>
+                            <Form.Input
                                 type="username"
                                 required
                                 onChange={this.handleFieldChange}
                                 id="username"
                                 placeholder="username"
+                                width={6}
                             />
-                        </Form.Field>
-                        <Form.Field>
-                            <Input
+                            <Form.Input
                                 type="password"
                                 required
                                 onChange={this.handleFieldChange}
                                 id="password"
                                 placeholder="enter password"
+                                width={6}
                             />
-                        </Form.Field>
-                        <Form.Field inline>
-                            <Button
+                            <Form.Field inline>
+                                <Button
+                                    type="button"
+                                    disabled={this.state.loadingStatus}
+                                    onClick={this.handleLogin}
+                                    content='Login'
+                                />
+                                <Checkbox
+                                    // verticalAlign='middle'
+                                    label='remember me'
+                                    id="remember"
+                                    onChange={this.handleFieldChange} />
+                            </Form.Field>
+                            <Divider horizontal>or</Divider>
+                            <Form.Button
                                 type="button"
-                                disabled={this.state.loadingStatus}
-                                onClick={this.handleLogin}
-                                content='Login'
+                                onClick={() => this.props.history.push('/register')}
+                                content='register new user'
                             />
-
-                            <Checkbox
-                                verticalAlign='middle'
-                                label='remember me'
-                                id="remember"
-                                onChange={this.handleFieldChange} />
-                        </Form.Field>
-                        <Divider horizontal>or</Divider>
-                        <Form.Field>
-                            <Button type="button" onClick={() => this.props.history.push('/register')}>register new user</Button>
-                        </Form.Field>
-                    </Grid.Column>
+                        </Grid.Column>
+                    </Grid>
                 </Form>
-            </>
+            </Container>
         )
     }
 }

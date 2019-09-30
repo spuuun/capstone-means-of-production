@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
-import { Header, Form, Grid, Button, TextArea, Input, Label, Icon } from 'semantic-ui-react';
+// import { withRouter } from 'react-router-dom';
+import { Header, Form, Grid, Button, TextArea, Input, Icon } from 'semantic-ui-react';
 import * as firebase from 'firebase/app';
 import 'firebase/storage';
 import ProjectManager from '../../modules/ProjectManager';

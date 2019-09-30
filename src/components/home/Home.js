@@ -2,12 +2,10 @@ import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { Container, Image, Grid, Accordion, Icon, Header } from 'semantic-ui-react'
 import ToolManager from '../../modules/ToolManager'
-import ToolCard from '../tools/ToolCard'
 import MyToolCard from '../tools/MyToolCard'
 import '../tools/ToolCard.css'
 import LoanManager from '../../modules/LoanManager'
 import LoanCard from '../loans/LoanCard'
-import ProjectList from '../projects/ProjectList'
 import ProjectManager from '../../modules/ProjectManager'
 import ProjectCard from '../projects/ProjectCard'
 import UserManager from '../../modules/UserManager'
@@ -22,7 +20,7 @@ class Home extends Component {
         loans: [],
         borrowed: [],
         loaned: [],
-        activeIndex: -1,
+        activeIndexes: [],
         showModal: false,
         myProjects: []
     }
@@ -74,7 +72,8 @@ class Home extends Component {
                 LoanManager.getLoans()
                     .then(loans => {
                         loans.map(loan => {
-                            loan.toolId === id && LoanManager.delete(loan.id)
+                            //added return to following line - dunno if/what impact it'll have
+                            return loan.toolId === id && LoanManager.delete(loan.id)
                         })
                     })
             })
@@ -111,12 +110,17 @@ class Home extends Component {
 
     handleClick = (e, titleProps) => {
         const { index } = titleProps
-        const activeIndex = this.state.activeIndex
-        const newIndex = activeIndex === index ? -1 : index
+        const activeIndexes = this.state.activeIndexes
+        const newIndex = activeIndexes
 
-        console.log({ index }, { activeIndex });
+        const currentIndexPosition = activeIndexes.indexOf(index);
+        if (currentIndexPosition > -1) {
+            newIndex.splice(currentIndexPosition, 1);
+        } else {
+            newIndex.push(index);
+        }
 
-        this.setState({ activeIndex: newIndex })
+        this.setState({ activeIndexes: newIndex })
     }
 
     render() {
@@ -135,13 +139,15 @@ class Home extends Component {
                         </Link>
                         <Accordion styled>
                             <Accordion.Title
-                                active={this.state.activeIndex === 0}
+                                active={this.state.activeIndexes.includes(0)}
                                 index={0}
                                 onClick={this.handleClick}>
                                 <Icon name='dropdown' />
                                 My Tools
                             </Accordion.Title>
-                            <Accordion.Content active={this.state.activeIndex === 0}>
+                            <Accordion.Content
+                                active={this.state.activeIndexes.includes(0)}
+                            >
                                 <Container>
                                     <div className='my-tools'>
                                         {this.state.myTools.map(tool => {
@@ -157,13 +163,13 @@ class Home extends Component {
                                 </Container>
                             </Accordion.Content>
                             <Accordion.Title
-                                active={this.state.activeIndex === 1}
+                                active={this.state.activeIndexes.includes(1)}
                                 index={1}
                                 onClick={this.handleClick}>
                                 <Icon name='dropdown' />
                                 Tools Loaned Out
                                 </Accordion.Title>
-                            <Accordion.Content active={this.state.activeIndex === 1}>
+                            <Accordion.Content active={this.state.activeIndexes.includes(1)}>
                                 <Container className='borrowed'>
                                     {this.state.loaned.map(loan => {
                                         return <LoanCard
@@ -177,13 +183,13 @@ class Home extends Component {
                                 </Container>
                             </Accordion.Content>
                             <Accordion.Title
-                                active={this.state.activeIndex === 2}
+                                active={this.state.activeIndexes.includes(2)}
                                 index={2}
                                 onClick={this.handleClick}>
                                 <Icon name='dropdown' />
                                 Tools Borrowed
                                 </Accordion.Title>
-                            <Accordion.Content active={this.state.activeIndex === 2}>
+                            <Accordion.Content active={this.state.activeIndexes.includes(2)}>
                                 <Container className='borrowed'>
                                     {this.state.borrowed.map(loan => {
                                         return <LoanCard
@@ -201,6 +207,7 @@ class Home extends Component {
                         <Link to='/projects/new'>
                             <button type='button'>add a new project</button>
                         </Link>
+
                         <Container>
                             {this.state.myProjects && this.state.myProjects.map(project => {
                                 return <ProjectCard

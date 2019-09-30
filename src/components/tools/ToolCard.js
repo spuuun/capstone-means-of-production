@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Card, Image, CardContent, Button } from 'semantic-ui-react'
 import './ToolCard.css'
-import LoanManager from '../../modules/LoanManager';
+// import LoanManager from '../../modules/LoanManager';
 
 class ToolCard extends Component {
     render() {
