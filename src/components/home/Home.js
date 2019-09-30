@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
-import { Container, Button, Grid, Accordion, Icon, Header } from 'semantic-ui-react'
+import { Container, Image, Grid, Accordion, Icon, Header } from 'semantic-ui-react'
 import ToolManager from '../../modules/ToolManager'
 import ToolCard from '../tools/ToolCard'
 import MyToolCard from '../tools/MyToolCard'
@@ -10,12 +10,14 @@ import LoanCard from '../loans/LoanCard'
 import ProjectList from '../projects/ProjectList'
 import ProjectManager from '../../modules/ProjectManager'
 import ProjectCard from '../projects/ProjectCard'
+import UserManager from '../../modules/UserManager'
 
 class Home extends Component {
 
     state = {
         activeUserId: null,
         username: '',
+        user: {},
         myTools: [],
         loans: [],
         borrowed: [],
@@ -38,9 +40,13 @@ class Home extends Component {
         }).then(() => this.parsedLoans())
 
         ProjectManager.getMyProjects(activeUser.activeUserId).then(myProjects => {
-            console.log('myProjects results', myProjects);
             this.setState({ myProjects: myProjects })
         })
+
+        UserManager.getSingleUser(activeUser.activeUserId)
+            .then(user => {
+                this.setState({ user: user })
+            })
 
     }
 
@@ -118,7 +124,10 @@ class Home extends Component {
             <div>
                 <Grid columns={2} padded>
                     <Grid.Row centered>
-                        <Header as='h2'>Welcome {this.state.username}!</Header>
+                        <Header as='h2'>Welcome
+                            <Header.Content>{this.state.username}!</Header.Content>
+                            <Image circular src={this.state.user.photo} />
+                        </Header>
                     </Grid.Row>
                     <Grid.Column>
                         <Link to='/tools/new'>
