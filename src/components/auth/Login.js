@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import { Link, Redirect } from "react-router-dom"
-import { Button, Form, Header } from 'semantic-ui-react'
+import { Button, Form, Header, Input, Checkbox, Grid, Divider } from 'semantic-ui-react'
 import UserManager from "../../modules/UserManager"
 
 
@@ -15,7 +15,7 @@ class LoginForm extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.isAuthenticated());
+        // console.log(this.props.isAuthenticated());
     }
 
     handleFieldChange = evt => {
@@ -64,11 +64,9 @@ class LoginForm extends Component {
         this.setState({ loadingStatus: true })
         UserManager.getAllUsers()
             .then(users => {
-                console.log(users)
                 const currentUser = users.find(user => {
                     return user.username === this.state.username && user.password === this.state.password
                 })
-                console.log('currentUser', currentUser);
                 if (currentUser !== undefined) {
                     // Create the user and redirect user to her/his home
                     // this.setState({ activeUserId: currentUser.id, remember: this. })
@@ -92,52 +90,57 @@ class LoginForm extends Component {
     render() {
         return (
             <>
-                <Header as='h1'>
+                <Header textAlign='left' as='h1'>
                     Means
                 </Header>
-                <Header as='h1'>
+                <Header textAlign='center' as='h1'>
                     of
                 </Header>
-                <Header as='h1'>
+                <Header textAlign='right' as='h1'>
                     Production
                 </Header>
                 <Form>
-                    <Form.Field>
-                        <label>username</label>
-                        <input
-                            type="username"
-                            required
-                            onChange={this.handleFieldChange}
-                            id="username"
-                            placeholder="username"
-                        />
-                    </Form.Field>
-                    <Form.Field>
-                        <label>password</label>
-                        <input
-                            type="password"
-                            required
-                            onChange={this.handleFieldChange}
-                            id="password"
-                            placeholder="Enter Password"
-                        />
-                    </Form.Field>
-                    <Form.Field>
-                        <Button
-                            type="button"
-                            disabled={this.state.loadingStatus}
-                            onClick={this.handleLogin}
-                        >Login</Button>
-                    </Form.Field>
-                    <Form.Field>
-                        <label>Remember me</label>
-                        <input type="checkbox" id="remember" onChange={this.handleFieldChange} />
-                    </Form.Field>
-                    <Form.Field>
-                        <Link to='/register'>
-                            <Button type="button">register new user</Button>
-                        </Link>
-                    </Form.Field>
+                    <Grid.Column
+                        verticalAlign='center'
+                    // floated='right'
+                    >
+                        <Form.Field>
+                            <Input
+                                type="username"
+                                required
+                                onChange={this.handleFieldChange}
+                                id="username"
+                                placeholder="username"
+                            />
+                        </Form.Field>
+                        <Form.Field>
+                            <Input
+                                type="password"
+                                required
+                                onChange={this.handleFieldChange}
+                                id="password"
+                                placeholder="enter password"
+                            />
+                        </Form.Field>
+                        <Form.Field inline>
+                            <Button
+                                type="button"
+                                disabled={this.state.loadingStatus}
+                                onClick={this.handleLogin}
+                                content='Login'
+                            />
+
+                            <Checkbox
+                                verticalAlign='middle'
+                                label='remember me'
+                                id="remember"
+                                onChange={this.handleFieldChange} />
+                        </Form.Field>
+                        <Divider horizontal>or</Divider>
+                        <Form.Field>
+                            <Button type="button" onClick={() => this.props.history.push('/register')}>register new user</Button>
+                        </Form.Field>
+                    </Grid.Column>
                 </Form>
             </>
         )
