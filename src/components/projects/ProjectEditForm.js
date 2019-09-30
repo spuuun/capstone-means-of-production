@@ -18,7 +18,7 @@ class ProjectEditForm extends Component {
         this.setState(stateToChange)
     }
 
-    updateExistingAnimal = evt => {
+    updateExistingProject = evt => {
         evt.preventDefault()
         this.setState({ loadingStatus: true });
         const editedProject = {
@@ -30,13 +30,14 @@ class ProjectEditForm extends Component {
         };
 
         ProjectManager.updateProject(editedProject)
-            .then(() => this.props.history.push("/projects"))
+            .then(() => this.props.history.push('/'))
+        //----------------  attempt to return user to the particular view they got to editForm from -----------------//
+        // .then(() => this.props.history.push(this.props.history.push(`${this.props.project.parentUrl}`)))
     }
 
     componentDidMount() {
         ProjectManager.getSingleProject(this.props.match.params.projectId)
             .then(project => {
-                console.log(project);
                 this.setState({
                     projectName: project.projectName,
                     projectDescription: project.projectDescription,
@@ -88,7 +89,7 @@ class ProjectEditForm extends Component {
                                         onChange={(e) => this.setState({ statusId: e.target.value })}
                                     />
                                 </Form.Field> */}
-                                <Button type="button" content='save changes' onClick={this.updateExistingAnimal} />
+                                <Button type="button" content='save changes' onClick={this.updateExistingProject} />
                             </Form>
                         </Grid.Column>
                     </Grid.Row>

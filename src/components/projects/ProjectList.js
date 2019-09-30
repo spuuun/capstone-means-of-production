@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-//import the components we will need
 import ProjectCard from './ProjectCard'
 import ProjectManager from '../../modules/ProjectManager'
 
@@ -34,13 +33,13 @@ class ProjectList extends Component {
     render() {
         return (
             <>
-                {/* <section className="section-content">
+                <section className="section-content">
                     <button type="button"
                         className="btn"
                         onClick={() => { this.props.history.push("/projects/new") }}>
                         add project
                     </button>
-                </section> */}
+                </section>
                 <div className="container-cards">
                     {this.state.projects.map(project =>
                         <ProjectCard
@@ -48,6 +47,7 @@ class ProjectList extends Component {
                             project={project}
                             deleteProject={this.deleteProject}
                             activeUserId={this.props.activeUserId}
+                            parentUrl={'/projects'}
                             {...this.props}
                         />
                     )}
