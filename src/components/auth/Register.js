@@ -6,6 +6,9 @@ import { Button, Header, Form, Grid, Input, Icon } from 'semantic-ui-react'
 import './Auth.css'
 import StatesDropdown from './StateDropDown'
 import LocationForm from './LocationForm'
+import * as firebase from 'firebase/app';
+import 'firebase/storage';
+
 
 class Register extends Component {
 
@@ -23,7 +26,9 @@ class Register extends Component {
         lastName: '',
         loadingStatus: false,
         remember: false,
-        photo: null
+        photo: null,
+        showUserForm: true,
+        showLocationForm: false
     }
 
     setLocalAndSession() {
@@ -59,28 +64,34 @@ class Register extends Component {
     setAppropriateStorage = () => { this.state.remember ? this.setLocalAndSession() : this.setSessionOnly() }
 
     handleRegister = () => {
+        const imagesRef = firebase.storage().ref('images');
+        const childRef = imagesRef.child(`${this.state.model}-${Date.now()}`)
         if (this.state.registerPassword === this.state.confirmPassword) {
-            console.log('handlRegister -- this.state', this.state)
-            const newUser = {
-                username: this.state.registerUsername,
-                email: this.state.email,
-                password: this.state.registerPassword,
-                streetAddress: this.state.address,
-                city: this.state.city,
-                state: this.state.state,
-                zip: this.state.zip,
-                firstName: this.state.firstName,
-                lastName: this.state.lastName,
-                createdOn: Date.now(),
-            }
-            UserManager.postNewUser(newUser).then(user => {
-                console.log('user created on register', user);
-                this.setState({ activeUserId: user.id })
-                this.props.setActiveUserId(user.id)
 
-            })
-                .then(() => {
-                    this.setAppropriateStorage()
+            childRef.put(this.state.photo)
+                .then(response => response.ref.getDownloadURL())
+                .then(url => {
+                    return UserManager.postNewUser({
+                        username: this.state.registerUsername,
+                        email: this.state.email,
+                        password: this.state.registerPassword,
+                        streetAddress: this.state.address,
+                        city: this.state.city,
+                        state: this.state.state,
+                        zip: this.state.zip,
+                        firstName: this.state.firstName,
+                        lastName: this.state.lastName,
+                        createdOn: Date.now(),
+                        photo: url
+                    })
+                        .then(user => {
+                            console.log('user created on register', user)
+                            this.setState({ activeUserId: user.id })
+                            this.props.setActiveUserId(user.id)
+                        })
+                        .then(() => {
+                            this.setAppropriateStorage();
+                        })
                 })
         } else {
             window.alert('passwords dont match')
@@ -114,86 +125,92 @@ class Register extends Component {
     render() {
         return (
             <>
-                <Header verticalAlign='left' as="h1">
+                <Header verticalAlign='middle' as="h1">
                     register...
                     </Header>
                 <Header as="h2">
                     join the revolution of the working class!
-            </Header>
+                </Header>
+                {this.state.showUserForm &&
+                    <Form hidden={this.state.userFormHidden}>
+                        <Grid.Column verticalAlign='middle' floated='right'>
+                            <Header as='h3'>so... tell me about you</Header>
+                            {/* {this.props.children} */}
+                            <Form.Field>
+                                <label htmlFor="registerUsername">username</label>
+                                <Input
+                                    id="registerUsername"
+                                    type="text"
+                                    onChange={this.handleFieldChange}
+                                    placeholder="enter a username"
+                                />
+                                {/* <Button type='button' content='check username' onClick={this.verifyUsername} /> */}
+                            </Form.Field>
 
-                <Form>
-                    <Grid.Column verticalAlign='middle' floated='right'>
-                        <Header as='h3'>so... tell me about you</Header>
-                        {this.props.children}
-                        <Form.Field inline>
-                            <label htmlFor="registerUsername">username</label>
-                            <Input
-                                id="registerUsername"
-                                type="text"
-                                onChange={this.handleFieldChange}
-                                placeholder="enter a username"
-                            />
-                            <Button type='button' content='check username' onClick={this.verifyUsername} />
-                        </Form.Field>
+                            <Form.Field
+                                control="input"
+                                type="file"
+                                label="your profile pic"
+                                onChange={(e) => this.setState({ photo: e.target.files[0] })} />
 
-                        {/* THIS IS WHERE ADD USER IMG GOES */}
-
-                        <Form.Field inline>
-                            <label htmlFor="firstName">first name</label>
-                            <Input
-                                id="firstName"
-                                type="text"
-                                onChange={this.handleFieldChange}
-                                placeholder="first name"
+                            <Form.Field>
+                                <label htmlFor="firstName">first name</label>
+                                <Input
+                                    id="firstName"
+                                    type="text"
+                                    onChange={this.handleFieldChange}
+                                    placeholder="first name"
+                                />
+                            </Form.Field>
+                            <Form.Field>
+                                <label htmlFor="lastName">last name</label>
+                                <Input
+                                    id="lastName"
+                                    type="text"
+                                    onChange={this.handleFieldChange}
+                                    placeholder="lastName"
+                                />
+                            </Form.Field>
+                            <Form.Field>
+                                <label htmlFor="email">email</label>
+                                <Input
+                                    id="email"
+                                    type="email"
+                                    onChange={this.handleFieldChange}
+                                    placeholder="enter your email"
+                                />
+                            </Form.Field>
+                            <Form.Field>
+                                <label htmlFor="registerPassword">password</label>
+                                <Input
+                                    id="registerPassword"
+                                    type="password"
+                                    onChange={this.handleFieldChange}
+                                    placeholder="enter a password"
+                                />
+                            </Form.Field>
+                            <Form.Field>
+                                <label htmlFor="confirmPassword">confirm password</label>
+                                <Input
+                                    id="confirmPassword"
+                                    type="password"
+                                    onChange={this.handleFieldChange}
+                                    placeholder="confirm your password"
+                                />
+                            </Form.Field>
+                            <Button content='save and continue'
+                                onClick={() => this.setState({ showLocationForm: true, showUserForm: false })}
                             />
-                        </Form.Field>
-                        <Form.Field inline>
-                            <label htmlFor="lastName">last name</label>
-                            <Input
-                                id="lastName"
-                                type="text"
-                                onChange={this.handleFieldChange}
-                                placeholder="lastName"
-                            />
-                        </Form.Field>
-                        <Form.Field inline>
-                            <label htmlFor="email">email</label>
-                            <Input
-                                id="email"
-                                type="email"
-                                onChange={this.handleFieldChange}
-                                placeholder="enter your email"
-                            />
-                        </Form.Field>
-                        <Form.Field inline>
-                            <label htmlFor="registerPassword">password</label>
-                            <Input
-                                id="registerPassword"
-                                type="password"
-                                onChange={this.handleFieldChange}
-                                placeholder="enter a password"
-                            />
-                        </Form.Field>
-                        <Form.Field inline>
-                            <label htmlFor="confirmPassword">confirm password</label>
-                            <Input
-                                id="confirmPassword"
-                                type="password"
-                                onChange={this.handleFieldChange}
-                                placeholder="confirm your password"
-                            />
-                        </Form.Field>
-                        <Button content='save and continue'
-                        // onClick={POST INFO GATHERED SO FAR AND TAKE USER TO ADDRESS SECTION}
-                        />
-                        <Button content='cancel and return to login' onClick={() => this.props.history.push('/login')} />
-                    </Grid.Column>
-                </Form>
-
-                < LocationForm
-                    handleFieldChange={this.handleFieldChange}
-                    handleRegister={this.handleRegister}
-                />
+                            <Button content='cancel and return to login' onClick={() => this.props.history.push('/login')} />
+                        </Grid.Column>
+                    </Form>
+                }
+                {this.state.showLocationForm &&
+                    < LocationForm
+                        hidden={this.state.locationFormHidden}
+                        handleFieldChange={this.handleFieldChange}
+                        handleRegister={this.handleRegister}
+                    />}
             </>
         );
     }
