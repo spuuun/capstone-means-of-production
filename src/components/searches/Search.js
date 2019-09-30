@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Input, Header, Grid, Button, Container } from 'semantic-ui-react'
+import { Input, Header, Grid, Button } from 'semantic-ui-react'
 import SearchManager from '../../modules/SearchManager'
 import ProjectCard from '../projects/ProjectCard'
 import ToolCard from '../tools/ToolCard'

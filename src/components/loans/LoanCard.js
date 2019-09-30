@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Icon, List, Button } from 'semantic-ui-react'
+// import { Link } from 'react-router-dom';
+import { List, Button } from 'semantic-ui-react'
 import '../tools/ToolCard.css'
 import UserManager from '../../modules/UserManager';
 
 class LoanCard extends Component {
 
     state = {
-        ownerName: ''
+        ownerName: '',
+        owner: {},
     }
 
     componentDidMount() {
@@ -17,13 +18,11 @@ class LoanCard extends Component {
     getOwnerName = (id) => {
         UserManager.getSingleUser(id)
             .then(user => {
-                this.setState({ ownerName: user.username })
+                this.setState({ ownerName: user.username, owner: user })
             })
     }
 
     render() {
-        // const userName = this.getOwnerName(this.props.loan.tool.userId)
-        // console.log(userName);
         return (
             this.props.loan.userId === this.props.activeUserId ?
                 <>

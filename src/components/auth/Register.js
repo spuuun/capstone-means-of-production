@@ -2,9 +2,8 @@
 import React, { Component } from 'react'
 import UserManager from '../../modules/UserManager'
 // import LoginForm from './Login'
-import { Button, Header, Form, Grid, Input, Icon } from 'semantic-ui-react'
+import { Button, Header, Form, Grid, Input } from 'semantic-ui-react'
 import './Auth.css'
-import StatesDropdown from './StateDropDown'
 import LocationForm from './LocationForm'
 import * as firebase from 'firebase/app';
 import 'firebase/storage';
