@@ -131,9 +131,11 @@ class Home extends Component {
             <div>
                 <Grid columns={2} padded>
                     <Grid.Row centered>
-                        <Header as='h2'>Welcome
-                            <Header.Content>{this.state.username}!</Header.Content>
-                            <Image circular src={this.state.user.photo} />
+                        <Header as='h2'>Welcome back, {this.state.username}
+                            {/* <Header.Content> */}
+                            <Image size='big' circular src={this.state.user.photo} />
+                            {/* {this.state.username} */}
+                            {/* </Header.Content> */}
                         </Header>
                     </Grid.Row>
 

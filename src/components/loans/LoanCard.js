@@ -28,24 +28,16 @@ class LoanCard extends Component {
                 <>
                     <List>
                         <List.Item>
+                            <Image size='small' src={this.props.loan.tool.photoUrl} />
+                            <List.Header>{this.props.loan.tool.model}</List.Header>
                             <Image avatar src={this.state.owner.photo} />
-                            <List.Content>
-                                <List.Header>{this.state.ownerName} <span className='ital owner-label'>(owner)</span></List.Header>
-                                <List.Description>
-                                    Due Back
-                                        on *DUEDATE*
-                                        at *LINK to 'owner.location'*
+                            <List.Header>{this.state.ownerName} <span className='ital owner-label'>(owner)</span></List.Header>
+                            <List.Description>
+                                Due Back
+                                    on *DUEDATE*
+                                    at *LINK to 'owner.location'*
                                 </List.Description>
-                            </List.Content>
                         </List.Item>
-
-
-                        {/* <List.Item icon='user' content={this.props.loan.user.username} /> */}
-                        {/* <List.Item content='tool: ' />
-                        <List.Item icon='legal' content={this.props.loan.tool.model} />
-                        <List.Item content='owner: ' />
-                        <List.Item icon='user' content={this.state.ownerName} /> */}
-                        {/* <List.Item icon='clock' content={this.props.loan.dateBorrowed} /> */}
                     </List>
                     <Button
                         type='button'
