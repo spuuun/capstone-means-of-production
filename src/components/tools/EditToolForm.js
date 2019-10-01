@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Form, TextArea, Checkbox, Image, Modal } from 'semantic-ui-react'
+import { Button, Form, TextArea, Icon, Image, Modal } from 'semantic-ui-react'
 import ToolManager from '../../modules/ToolManager'
 
 class EditToolForm extends Component {
@@ -11,6 +11,7 @@ class EditToolForm extends Component {
         isAvailable: this.props.tool.isAvailable,
         description: this.props.tool.description,
         id: this.props.tool.id,
+        photo: this.props.tool.photoUrl,
         showModal: false
     }
 
@@ -21,7 +22,8 @@ class EditToolForm extends Component {
             manual: this.state.manual,
             isAvailable: this.state.isAvailable,
             description: this.state.description,
-            id: this.state.id
+            id: this.state.id,
+            photoUrl: this.state.photo
         }
         ToolManager.update(updatedTool)
             .then(() => this.props.refreshTools())
@@ -33,7 +35,14 @@ class EditToolForm extends Component {
             <Modal open={this.state.showModal} trigger={<Button onClick={() => this.setState({ showModal: true })}>Edit</Button>}>
                 <Modal.Header>Edit Tool</Modal.Header>
                 <Modal.Content image>
-                    <Image wrapped size='medium' src='../../../images/karlsson-adze.jpeg' />
+                    {this.state.photo !== null && <>
+                        <Icon name='times'
+                            onClick={() => {
+                                window.confirm('delete this photo??? \nare you sure?!?!') && this.setState({ photo: null })
+                            }}
+                        />
+                        <Image wrapped size='medium' src={this.state.photo} />
+                    </>}
                     <Form>
                         <Form.Field
                             control="input"
@@ -46,7 +55,7 @@ class EditToolForm extends Component {
                             label="additional notes"
                             onChange={(e) => this.setState({ description: e.target.value })}
                             value={this.state.description} />
-                        <Form.Field>
+                        {/* <Form.Field>
                             accompanying manual?
                         </Form.Field>
                         <Form.Field>
@@ -58,8 +67,8 @@ class EditToolForm extends Component {
                                 checked={this.state.manual === 'true'}
                                 onChange={(e) => this.setState({ manual: e.target.value })}
                             />
-                        </Form.Field>
-                        <Form.Field>
+                        </Form.Field> */}
+                        {/* <Form.Field>
                             <Checkbox
                                 radio
                                 label='no'
@@ -68,8 +77,9 @@ class EditToolForm extends Component {
                                 checked={this.state.manual === 'false'}
                                 onChange={(e) => this.setState({ manual: e.target.value })}
                             />
-                        </Form.Field>
+                        </Form.Field> */}
                         <Button type="button" content='save changes' onClick={this.updateTool} />
+                        <Button type="button" content='cancel' onClick={() => this.setState({ showModal: false })} />
                     </Form>
                 </Modal.Content>
             </Modal >

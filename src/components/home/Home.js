@@ -220,7 +220,7 @@ class Home extends Component {
 
                         <Container>
                             {this.state.myProjects && this.state.myProjects.map(project => {
-                                return <ProjectCard
+                                return <ProjectCard fluid
                                     key={project.id}
                                     project={project}
                                     activeUserId={this.state.activeUserId}

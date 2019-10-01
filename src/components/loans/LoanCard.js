@@ -28,18 +28,21 @@ class LoanCard extends Component {
                 <>
                     <List>
                         <List.Item>
+                            <List.Header as='h2'>{this.props.loan.tool.model}</List.Header>
                             <Image size='small' src={this.props.loan.tool.photoUrl} />
-                            <List.Header>{this.props.loan.tool.model}</List.Header>
-                            <Image avatar src={this.state.owner.photo} />
-                            <List.Header>{this.state.ownerName} <span className='ital owner-label'>(owner)</span></List.Header>
-                            <List.Description>
-                                Due Back
-                                    on *DUEDATE*
-                                    at *LINK to 'owner.location'*
+                            <List.Content floated='right' verticalAlign='middle'>
+                                <Image avatar src={this.state.owner.photo} />
+                                <List.Header>{this.state.ownerName} <span className='ital owner-label'>(owner)</span></List.Header>
+                                <List.Description>
+                                    Due Back
+                                        <br />on *DUEDATE*
+                                        <br />at *LINK to 'owner.location'*
                                 </List.Description>
+                            </List.Content>
                         </List.Item>
                     </List>
                     <Button
+                        centered
                         type='button'
                         content='return tool'
                         onClick={() => this.props.returnTool(this.props.loan)} />

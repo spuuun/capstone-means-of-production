@@ -15,19 +15,19 @@ export default class extends Component {
     }
 
     handleSearch = e => {
-        this.setState({ search: e.target.value })
+        // this.setState({ search: e.target.value })
 
         console.log(this.state)
 
         this.state.filterBy === "tools"
             && SearchManager.searchTools(this.state.search)
-                .then(tools => this.setState({ toolResults: tools }))
+                .then(tools => this.setState({ toolResults: tools, projectResults: [] }))
 
         this.state.filterBy === "projects"
             && SearchManager.searchProjects(this.state.search)
                 .then(projects => {
                     console.log(projects)
-                    this.setState({ projectResults: projects })
+                    this.setState({ projectResults: projects, toolResults: [] })
                 })
 
         // this.state.filterBy === "all"
@@ -61,9 +61,12 @@ export default class extends Component {
                             icon='search'
                             iconPosition='left'
                             type='text'
-                            onChange={(e) => this.setState({ search: e.target.value })}
+                            onChange={(e) => {
+                                this.setState({ search: e.target.value })
+                                // this.handleSearch()
+                            }
+                            }
                             placeholder='search...'
-                            onClick={() => console.log(this.state)}
                         />
                         <Button content='search' onClick={this.handleSearch} />
                         <Button.Group floated='right'>
@@ -87,18 +90,7 @@ export default class extends Component {
                                     this.setState({ filterBy: e.target.value, activeButtonIndex: 1 })
                                 }}
                             />
-                            {/* <Button
-                                floated='right'
-                                active={2 === this.state.activeButtonIndex}
-                                content='all'
-                                value='all'
-                                type='button'
-                                onClick={(e) => {
-                                    this.setState({ filterBy: e.target.value, activeButtonIndex: 2 })
-                                }}
-                            /> */}
                         </Button.Group>
-                        {/* <Dropdown onChange={(e) => console.log(e.target.value)} button basic floating options={searchOptions} defaultValue='tools' /> */}
                     </Grid.Row>
                     {this.state.toolResults.length > 0 && this.state.toolResults.map(tool => {
                         return <ToolCard
