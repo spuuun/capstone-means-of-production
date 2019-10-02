@@ -30,6 +30,7 @@ class Home extends Component {
         this.setState({ activeUserId: activeUser.activeUserId, username: activeUser.username })
 
         ToolManager.getMyTools(activeUser.activeUserId).then(tools => {
+            console.log('home did mount - myTools from API', tools)
             this.setState({ myTools: tools })
         })
 
@@ -72,7 +73,8 @@ class Home extends Component {
                 LoanManager.getLoans()
                     .then(loans => {
                         loans.map(loan => {
-                            //added return to following line - dunno if/what impact it'll have
+                            //added return on following line to resolve browser warnin
+                            //not sure if it will make an impact
                             return loan.toolId === id && LoanManager.delete(loan.id)
                         })
                     })
@@ -124,19 +126,25 @@ class Home extends Component {
     }
 
     render() {
+        console.log('RENDER - this.state', this.state)
         return (
             <div>
                 <Grid columns={2} padded>
                     <Grid.Row centered>
-                        <Header as='h2'>Welcome
-                            <Header.Content>{this.state.username}!</Header.Content>
-                            <Image circular src={this.state.user.photo} />
+                        <Header as='h2'>Welcome back, {this.state.username}
+                            {/* <Header.Content> */}
+                            <Image size='big' circular src={this.state.user.photo} />
+                            {/* {this.state.username} */}
+                            {/* </Header.Content> */}
                         </Header>
                     </Grid.Row>
+
                     <Grid.Column>
+
                         <Link to='/tools/new'>
                             <button type='button'>add a new tool</button>
                         </Link>
+
                         <Accordion styled>
                             <Accordion.Title
                                 active={this.state.activeIndexes.includes(0)}
@@ -145,9 +153,7 @@ class Home extends Component {
                                 <Icon name='dropdown' />
                                 My Tools
                             </Accordion.Title>
-                            <Accordion.Content
-                                active={this.state.activeIndexes.includes(0)}
-                            >
+                            <Accordion.Content active={this.state.activeIndexes.includes(0)}>
                                 <Container>
                                     <div className='my-tools'>
                                         {this.state.myTools.map(tool => {
@@ -162,13 +168,14 @@ class Home extends Component {
                                     </div>
                                 </Container>
                             </Accordion.Content>
+
                             <Accordion.Title
                                 active={this.state.activeIndexes.includes(1)}
                                 index={1}
                                 onClick={this.handleClick}>
                                 <Icon name='dropdown' />
                                 Tools Loaned Out
-                                </Accordion.Title>
+                            </Accordion.Title>
                             <Accordion.Content active={this.state.activeIndexes.includes(1)}>
                                 <Container className='borrowed'>
                                     {this.state.loaned.map(loan => {
@@ -182,6 +189,7 @@ class Home extends Component {
                                     })}
                                 </Container>
                             </Accordion.Content>
+
                             <Accordion.Title
                                 active={this.state.activeIndexes.includes(2)}
                                 index={2}
@@ -201,7 +209,9 @@ class Home extends Component {
                                     })}
                                 </Container>
                             </Accordion.Content>
+
                         </Accordion>
+
                     </Grid.Column>
                     <Grid.Column>
                         <Link to='/projects/new'>
@@ -210,7 +220,7 @@ class Home extends Component {
 
                         <Container>
                             {this.state.myProjects && this.state.myProjects.map(project => {
-                                return <ProjectCard
+                                return <ProjectCard fluid
                                     key={project.id}
                                     project={project}
                                     activeUserId={this.state.activeUserId}
