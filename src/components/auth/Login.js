@@ -87,10 +87,10 @@ class LoginForm extends Component {
                 <Header textAlign='left' as='h1'>
                     Means
                 </Header>
-                <Header textAlign='center' as='h1'>
+                <Header textAlign='left' as='h1'>
                     of
                 </Header>
-                <Header textAlign='right' as='h1'>
+                <Header textAlign='left' as='h1'>
                     Production
                 </Header>
                 <Form className='login-form form'>
