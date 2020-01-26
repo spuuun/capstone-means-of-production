@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import UserManager from '../../modules/UserManager'
 // import LoginForm from './Login'
-import { Button, Header, Form, Grid, Input } from 'semantic-ui-react'
+import { Grid, Button } from '@material-ui/core'
 import './Auth.css'
 import LocationForm from './LocationForm'
 import * as firebase from 'firebase/app';
@@ -124,85 +124,79 @@ class Register extends Component {
     render() {
         return (
             <>
-                <Header verticalAlign='middle' as="h1">
+                <h1>
                     register...
-                    </Header>
-                <Header as="h2">
+                    </h1>
+                <h2>
                     join the revolution of the working class!
-                </Header>
+                </h2>
                 {this.state.showUserForm &&
-                    <Form hidden={this.state.userFormHidden}>
-                        <Grid.Column verticalAlign='middle' floated='right'>
-                            <Header as='h3'>so... tell me about you</Header>
+                    <form hidden={this.state.userFormHidden}>
+                        <Grid
+                            container
+                            direction="row"
+                            justify="center"
+                            alignItems="baseline"
+                            spacing={3}
+                        >
                             {/* {this.props.children} */}
-                            <Form.Field>
-                                <label htmlFor="registerUsername">username</label>
-                                <Input
-                                    id="registerUsername"
-                                    type="text"
-                                    onChange={this.handleFieldChange}
-                                    placeholder="enter a username"
-                                />
-                                {/* <Button type='button' content='check username' onClick={this.verifyUsername} /> */}
-                            </Form.Field>
+                            <label htmlFor="registerUsername">username</label>
+                            <input
+                                id="registerUsername"
+                                type="text"
+                                onChange={this.handleFieldChange}
+                                placeholder="enter a username"
+                            />
+                            {/* <Button type='button' content='check username' onClick={this.verifyUsername} /> */}
 
-                            <Form.Field
+                            <input
                                 control="input"
                                 type="file"
                                 label="your profile pic"
                                 onChange={(e) => this.setState({ photo: e.target.files[0] })} />
 
-                            <Form.Field>
-                                <label htmlFor="firstName">first name</label>
-                                <Input
-                                    id="firstName"
-                                    type="text"
-                                    onChange={this.handleFieldChange}
-                                    placeholder="first name"
-                                />
-                            </Form.Field>
-                            <Form.Field>
-                                <label htmlFor="lastName">last name</label>
-                                <Input
-                                    id="lastName"
-                                    type="text"
-                                    onChange={this.handleFieldChange}
-                                    placeholder="lastName"
-                                />
-                            </Form.Field>
-                            <Form.Field>
-                                <label htmlFor="email">email</label>
-                                <Input
-                                    id="email"
-                                    type="email"
-                                    onChange={this.handleFieldChange}
-                                    placeholder="enter your email"
-                                />
-                            </Form.Field>
-                            <Form.Field>
-                                <label htmlFor="registerPassword">password</label>
-                                <Input
-                                    id="registerPassword"
-                                    type="password"
-                                    onChange={this.handleFieldChange}
-                                    placeholder="enter a password"
-                                />
-                            </Form.Field>
-                            <Form.Field>
-                                <label htmlFor="confirmPassword">confirm password</label>
-                                <Input
-                                    id="confirmPassword"
-                                    type="password"
-                                    onChange={this.handleFieldChange}
-                                    placeholder="confirm your password"
-                                />
-                            </Form.Field>
-                            <Button content='save and continue'
-                                onClick={() => this.setState({ showLocationForm: true, showUserForm: false })}
+                            <label htmlFor="firstName">first name</label>
+                            <input
+                                id="firstName"
+                                type="text"
+                                onChange={this.handleFieldChange}
+                                placeholder="first name"
                             />
-                            <Button content='cancel and return to login' onClick={() => this.props.history.push('/login')} />
-                        </Grid.Column>
-                    </Form>
+                            <label htmlFor="lastName">last name</label>
+                            <input
+                                id="lastName"
+                                type="text"
+                                onChange={this.handleFieldChange}
+                                placeholder="lastName"
+                            />
+                            <label htmlFor="email">email</label>
+                            <input
+                                id="email"
+                                type="email"
+                                onChange={this.handleFieldChange}
+                                placeholder="enter your email"
+                            />
+                            <label htmlFor="registerPassword">password</label>
+                            <input
+                                id="registerPassword"
+                                type="password"
+                                onChange={this.handleFieldChange}
+                                placeholder="enter a password"
+                            />
+                            <label htmlFor="confirmPassword">confirm password</label>
+                            <input
+                                id="confirmPassword"
+                                type="password"
+                                onChange={this.handleFieldChange}
+                                placeholder="confirm your password"
+                            />
+                            <Button variant="contained" color="primary"
+                                onClick={() => this.setState({ showLocationForm: true, showUserForm: false })}>
+                                save and continue
+                                    </Button>
+                            <Button variant="contained" color="secondary" onClick={() => this.props.history.push('/login')} >cancel and return to login</Button>
+                        </Grid>
+                    </form>
                 }
                 {this.state.showLocationForm &&
                     < LocationForm

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Image, CardContent, Button } from 'semantic-ui-react'
+import { CardMedia, CardContent, Card, Typography } from '@material-ui/core'
 import './ToolCard.css'
 // import LoanManager from '../../modules/LoanManager';
 
@@ -7,33 +7,42 @@ class ToolCard extends Component {
     render() {
         return (
             <Card className='tool-card'>
-                <Image centered size='small' src={this.props.tool.photoUrl} alt='cool tool' wrapped />
-                <Card.Header>model: {this.props.tool.model}</Card.Header>
                 <CardContent>
-                    <Card.Meta>owner: {this.props.tool.user.username}</Card.Meta>
-                    <Card.Description>{this.props.tool.description}</Card.Description>
+                    <Typography gutterBottom variant="h5" component="h2">
+
+                        model: {this.props.tool.model}
+                    </Typography>
+                    <img src={this.props.tool.photoUrl} alt='cool tool' />
+                    <Typography variant="body2" color="textSecondary" component="p">
+                        {this.props.tool.description}
+                    </Typography>
+                    <Typography variant="body3" color="textSecondary" component="p">
+                        owner: {this.props.tool.user.username}
+                    </Typography>
                 </CardContent>
-                <CardContent extra>
+                <CardContent>
                     available: {this.props.tool.isAvailable ? "Yes" : "No"}
                     {this.props.tool.userId === this.props.activeUserId ?
                         <>
-                            {/* <Button type='button'
-                                content='edit tool' /> */}
-                            <Button type='button'
+                            <button type='button'
+                            >edit</button>
+                            <button type='button'
                                 onClick={() => { this.props.deleteTool(this.props.tool.id) }}
-                                content='delete tool' />
+                            >delete tool</button>
                         </>
                         :
                         this.props.tool.isAvailable
-                        &&
-                        <Button type='button'
-                            onClick={() => this.props.checkoutTool(this.props.tool)}
-                            content='checkout' />}
-                    {/* : <Button
-                                type='button'
-                                content='place hold' />} */}
+                            ?
+                            <button type='button' onClick={() => this.props.checkoutTool(this.props.tool)}>
+                                checkout
+                            </button>
+                            :
+                            <button type="button">
+                                place hold
+                            </button>
+                    }
                 </CardContent>
-            </Card>
+            </Card >
         )
     }
 }

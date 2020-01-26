@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
-import { Container, Image, Grid, Accordion, Icon, Header } from 'semantic-ui-react'
+// import { Container, Image, Grid, Accordion, Icon, Header } from 'semantic-ui-react'
+import Grid from '@material-ui/core/Grid'
 import ToolManager from '../../modules/ToolManager'
 import MyToolCard from '../tools/MyToolCard'
 import '../tools/ToolCard.css'
@@ -110,23 +111,25 @@ class Home extends Component {
         console.log('RENDER - this.state', this.state)
         return (
             <div>
-                <Grid columns={2} padded>
-                    <Grid.Row centered>
-                        <Header as='h2'>Welcome back, {this.state.username}
-                            {/* <Header.Content> */}
-                            <Image size='big' circular src={this.state.user.photo} />
-                            {/* {this.state.username} */}
-                            {/* </Header.Content> */}
-                        </Header>
-                    </Grid.Row>
+                <Grid
+                    container
+                    direction="row"
+                    justify="center"
+                    alignItems="baseline"
+                    spacing={3}
+                >
 
-                    <Grid.Column>
 
-                        <Link to='/tools/new'>
-                            <button type='button'>add a new tool</button>
-                        </Link>
 
-                        <Accordion styled>
+                    <h2>Welcome back, {this.state.username}
+                        <img src={this.state.user.photo} />
+                    </h2>
+
+                    <Link to='/tools/new'>
+                        <button type='button'>add a new tool</button>
+                    </Link>
+
+                    {/* <Accordion styled>
                             <Accordion.Title
                                 active={this.state.activeIndexes.includes(0)}
                                 index={0}
@@ -193,7 +196,7 @@ class Home extends Component {
 
                         </Accordion>
 
-                    </Grid.Column>
+                    </Grid.Column> */}
                 </Grid>
             </div >
         )

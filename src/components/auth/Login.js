@@ -1,6 +1,7 @@
 import React, { Component } from "react"
-// import { Link, Redirect } from "react-router-dom"
-import { Button, Form, Header, Checkbox, Grid, Divider, Container } from 'semantic-ui-react'
+//import { Link, Redirect } from "react-router-dom"
+//import { Button, Form, Header, Checkbox, Grid, Divider, Container } from 'semantic-ui-react'
+import { Grid, Divider, Button } from '@material-ui/core'
 import UserManager from "../../modules/UserManager"
 import './Auth.css'
 
@@ -83,58 +84,60 @@ class LoginForm extends Component {
 
     render() {
         return (
-            <Container>
-                <Header textAlign='left' as='h1'>
-                    Means
-                </Header>
-                <Header textAlign='center' as='h1'>
-                    of
-                </Header>
-                <Header textAlign='right' as='h1'>
-                    Production
-                </Header>
-                <Form className='login-form form'>
-                    <Grid columns={1} verticalAlign='middle'>
-                        <Grid.Column>
-                            <Form.Input
-                                type="username"
-                                required
-                                onChange={this.handleFieldChange}
-                                id="username"
-                                placeholder="username"
-                                width={6}
+            <div>
+                <h1>
+                    Means of Production
+                </h1>
+
+                <form className='login-form form'>
+                    <Grid
+                        container
+                        direction="row"
+                        justify="center"
+                        alignItems="baseline"
+                        spacing={3}
+                    >
+                        <input
+                            type="username"
+                            required
+                            onChange={this.handleFieldChange}
+                            id="username"
+                            placeholder="username"
+                            width={6}
+                        />
+                        <input
+                            type="password"
+                            required
+                            onChange={this.handleFieldChange}
+                            id="password"
+                            placeholder="enter password"
+                            width={6}
+                        />
+                        <div>
+                            <input
+                                type="submit"
+                                disabled={this.state.loadingStatus}
+                                onClick={this.handleLogin}
+                                value='Login'
                             />
-                            <Form.Input
-                                type="password"
-                                required
-                                onChange={this.handleFieldChange}
-                                id="password"
-                                placeholder="enter password"
-                                width={6}
-                            />
-                            <Form.Field inline>
-                                <Button
-                                    type="button"
-                                    disabled={this.state.loadingStatus}
-                                    onClick={this.handleLogin}
-                                    content='Login'
-                                />
-                                <Checkbox
-                                    // verticalAlign='middle'
-                                    label='remember me'
-                                    id="remember"
-                                    onChange={this.handleFieldChange} />
-                            </Form.Field>
-                            <Divider horizontal>or</Divider>
-                            <Form.Button
-                                type="button"
-                                onClick={() => this.props.history.push('/register')}
-                                content='register new user'
-                            />
-                        </Grid.Column>
+                            {/* <Checkbox
+                                // verticalAlign='middle'
+                                label='remember me'
+                                id="remember"
+                                onChange={this.handleFieldChange} /> */}
+                        </div>
+                        <div>
+                            <p>
+                                or
+                            </p>
+                        </div>
+                        <Button variant="contained" color="primary"
+                            onClick={() => this.props.history.push('/register')}>
+                            register new user
+                        </Button>
                     </Grid>
-                </Form>
-            </Container>
+                </form>
+            </div>
         )
     }
 }

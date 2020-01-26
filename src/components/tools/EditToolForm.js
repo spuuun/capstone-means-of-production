@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Form, TextArea, Icon, Image, Modal } from 'semantic-ui-react'
+import { Modal } from '@material-ui/core'
 import ToolManager from '../../modules/ToolManager'
 
 class EditToolForm extends Component {
@@ -32,56 +32,31 @@ class EditToolForm extends Component {
 
     render() {
         return (
-            <Modal open={this.state.showModal} trigger={<Button onClick={() => this.setState({ showModal: true })}>Edit</Button>}>
-                <Modal.Header>Edit Tool</Modal.Header>
-                <Modal.Content image>
+            <Modal open={this.state.showModal} trigger={<button onClick={() => this.setState({ showModal: true })}>Edit</button>}>
+                <h2>Edit Tool</h2>
+                <div className="edit-tool-image">
                     {this.state.photo !== null && <>
-                        <Icon name='times'
+                        <button
                             onClick={() => {
                                 window.confirm('delete this photo??? \nare you sure?!?!') && this.setState({ photo: null })
                             }}
-                        />
-                        <Image wrapped size='medium' src={this.state.photo} />
+                        >delete</button>
+                        <img src={this.state.photo} />
                     </>}
-                    <Form>
-                        <Form.Field
-                            control="input"
+                    <form>
+                        <input
                             type="text"
                             label="model"
                             onChange={(e) => this.setState({ model: e.target.value })}
                             value={this.state.model} />
-                        <Form.Field />
-                        <TextArea
+                        <textarea
                             label="additional notes"
                             onChange={(e) => this.setState({ description: e.target.value })}
                             value={this.state.description} />
-                        {/* <Form.Field>
-                            accompanying manual?
-                        </Form.Field>
-                        <Form.Field>
-                            <Checkbox
-                                radio
-                                label='yes'
-                                name='checkboxRadioGroup'
-                                value='true'
-                                checked={this.state.manual === 'true'}
-                                onChange={(e) => this.setState({ manual: e.target.value })}
-                            />
-                        </Form.Field> */}
-                        {/* <Form.Field>
-                            <Checkbox
-                                radio
-                                label='no'
-                                name='checkboxRadioGroup'
-                                value='false'
-                                checked={this.state.manual === 'false'}
-                                onChange={(e) => this.setState({ manual: e.target.value })}
-                            />
-                        </Form.Field> */}
-                        <Button type="button" content='save changes' onClick={this.updateTool} />
-                        <Button type="button" content='cancel' onClick={() => this.setState({ showModal: false })} />
-                    </Form>
-                </Modal.Content>
+                        <button type="button" content='save changes' onClick={this.updateTool} />
+                        <button type="button" content='cancel' onClick={() => this.setState({ showModal: false })} />
+                    </form>
+                </div>
             </Modal >
         )
     }
