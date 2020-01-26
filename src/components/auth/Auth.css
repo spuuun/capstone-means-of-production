@@ -1,0 +1,7 @@
+.animated-button {
+    width: 70%
+}
+
+ui.form..login-form {
+    border: 1px solid red;
+}
