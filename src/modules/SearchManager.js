@@ -3,8 +3,5 @@ const remoteURL = "http://localhost:5002"
 export default {
     searchTools(str) {
         return fetch(`${remoteURL}/tools/?q=${str}&_expand=user`).then(r => r.json())
-    },
-    searchProjects(str) {
-        return fetch(`${remoteURL}/projects/?q=${str}`).then(r => r.json())
     }
 }

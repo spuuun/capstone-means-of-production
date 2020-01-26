@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Input, Header, Grid, Button } from 'semantic-ui-react'
 import SearchManager from '../../modules/SearchManager'
-import ProjectCard from '../projects/ProjectCard'
 import ToolCard from '../tools/ToolCard'
 
 export default class extends Component {
@@ -10,44 +9,19 @@ export default class extends Component {
         search: '',
         filterBy: 'tools',
         activeButtonIndex: 0,
-        toolResults: [],
-        projectResults: []
+        toolResults: []
     }
 
     handleSearch = e => {
-        // this.setState({ search: e.target.value })
-
         console.log(this.state)
 
         this.state.filterBy === "tools"
             && SearchManager.searchTools(this.state.search)
-                .then(tools => this.setState({ toolResults: tools, projectResults: [] }))
+                .then(tools => this.setState({ toolResults: tools }))
 
-        this.state.filterBy === "projects"
-            && SearchManager.searchProjects(this.state.search)
-                .then(projects => {
-                    console.log(projects)
-                    this.setState({ projectResults: projects, toolResults: [] })
-                })
-
-        // this.state.filterBy === "all"
-        //     && SearchManager.searchProjects(this.state.search)
-        //         .then(tools => this.setState({ toolResults: tools }))
-        //         .then(() => {
-        //             SearchManager.searchProjects(this.state.search)
-        //         })
-        //         .then(projects => {
-        //             console.log(projects)
-        //             this.setState({ projectResults: projects })
-        //         })
     }
 
     render() {
-        // const searchOptions = [
-        //     { key: 'tools', text: 'tools', value: 'tools' },
-        //     { key: 'projects', text: 'projects', value: 'projects' },
-        //     { key: 'all', text: 'all', value: 'all' },
-        // ]
         return (
             <div>
                 <Grid>
@@ -63,7 +37,6 @@ export default class extends Component {
                             type='text'
                             onChange={(e) => {
                                 this.setState({ search: e.target.value })
-                                // this.handleSearch()
                             }
                             }
                             placeholder='search...'
@@ -96,12 +69,6 @@ export default class extends Component {
                         return <ToolCard
                             key={tool.id}
                             tool={tool}
-                        />
-                    })}
-                    {this.state.projectResults.length > 0 && this.state.projectResults.map(project => {
-                        return <ProjectCard
-                            key={project.id}
-                            project={project}
                         />
                     })}
                 </Grid>

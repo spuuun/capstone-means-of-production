@@ -6,8 +6,6 @@ import MyToolCard from '../tools/MyToolCard'
 import '../tools/ToolCard.css'
 import LoanManager from '../../modules/LoanManager'
 import LoanCard from '../loans/LoanCard'
-import ProjectManager from '../../modules/ProjectManager'
-import ProjectCard from '../projects/ProjectCard'
 import UserManager from '../../modules/UserManager'
 
 class Home extends Component {
@@ -21,8 +19,7 @@ class Home extends Component {
         borrowed: [],
         loaned: [],
         activeIndexes: [],
-        showModal: false,
-        myProjects: []
+        showModal: false
     }
 
     componentDidMount() {
@@ -38,27 +35,11 @@ class Home extends Component {
             this.setState({ loans: loans })
         }).then(() => this.parsedLoans())
 
-        ProjectManager.getMyProjects(activeUser.activeUserId).then(myProjects => {
-            this.setState({ myProjects: myProjects })
-        })
-
         UserManager.getSingleUser(activeUser.activeUserId)
             .then(user => {
                 this.setState({ user: user })
             })
 
-    }
-
-    deleteProject = id => {
-        ProjectManager.delete(id)
-            .then(() => {
-                ProjectManager.getMyProjects(this.state.activeUserId)
-                    .then((newProjects) => {
-                        this.setState({
-                            myProjects: newProjects
-                        })
-                    })
-            })
     }
 
     deleteTool = id => {
@@ -211,25 +192,6 @@ class Home extends Component {
                             </Accordion.Content>
 
                         </Accordion>
-
-                    </Grid.Column>
-                    <Grid.Column>
-                        <Link to='/projects/new'>
-                            <button type='button'>add a new project</button>
-                        </Link>
-
-                        <Container>
-                            {this.state.myProjects && this.state.myProjects.map(project => {
-                                return <ProjectCard fluid
-                                    key={project.id}
-                                    project={project}
-                                    activeUserId={this.state.activeUserId}
-                                    deleteProject={this.deleteProject}
-                                    parentUrl={'/'}
-                                    {...this.props}
-                                />
-                            })}
-                        </Container>
 
                     </Grid.Column>
                 </Grid>

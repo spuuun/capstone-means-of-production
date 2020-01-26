@@ -37,13 +37,6 @@ class NavBar extends Component {
                     className="nav-item">
                     <Link className="nav-link" to="/tools">Tools</Link>
                 </Menu.Item>
-                {/* <Menu.Item
-                    name='projects'
-                    active={this.state.activeItem === 'projects'}
-                    onClick={(e) => this.setState({ activeItem: 'projects' })}
-                    className="nav-item">
-                    <Link className="nav-link" to="/projects">Projects</Link>
-                </Menu.Item> */}
                 <Menu.Item
                     name='search'
                     active={this.state.activeItem === 'search'}
