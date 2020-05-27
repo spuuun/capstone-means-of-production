@@ -8,7 +8,7 @@ import ToolList from './tools/ToolList'
 import AddToolForm from './tools/AddToolForm'
 import Search from './searches/Search'
 import './ApplicationViews.css'
-
+import Login from '../components/auth/LoginForm-refactor'
 
 class ApplicationViews extends Component {
 
@@ -62,9 +62,16 @@ class ApplicationViews extends Component {
                     <Route exact path="/newuser" render={(props) => {
                         return <NewUserForm {...props} />
                     }} />
-                    <Route exact path="/login" render={(props) => {
+
+
+
+                    <Route exact path="/login" component={Login}/>
+                    {/* <Route exact path="/login" render={(props) => {
                         return <LoginForm isAuthenticated={this.isAuthenticated} setActiveUserId={this.setActiveUserId} {...props} />
-                    }} />
+                    }} /> */}
+
+
+
                     <Route exact path="/register" render={(props) => {
                         return <RegisterForm {...props} setActiveUserId={this.setActiveUserId} />
                     }} />

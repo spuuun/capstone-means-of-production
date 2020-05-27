@@ -8,8 +8,9 @@ export default {
     //     return fetch(`${remoteURL}/${path}/${id}`)
     //         .then(e => e.json())
     // },
-    getAllUsers() {
-        return fetch(`${remoteURL}/users`).then(result => result.json())
+    async getAllUsers() {
+        const result = await fetch(`${remoteURL}/users.json`)
+        return result.json()
     },
     postNewUser(newUser) {
         return fetch(`${remoteURL}/users`, {

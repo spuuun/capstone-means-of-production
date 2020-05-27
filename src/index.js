@@ -18,7 +18,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+const firebaseApp = firebase.initializeApp(firebaseConfig);
 
 ReactDOM.render(
     <Router>
@@ -26,3 +26,4 @@ ReactDOM.render(
     </Router>
     , document.getElementById('root'));
 
+export {firebaseApp}
