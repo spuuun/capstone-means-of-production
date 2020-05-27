@@ -8,12 +8,11 @@ c.f. other existing branches, especially `master`, to review previous iterations
 
 Cheers!
 
-# Means of Production 
-## a community-sourced tool library for those who want to get things done
+# Means of Production - a community-sourced tool library for those who want to get things done
 
-### Register tools you own and make them available to other users for checkout 
-### Search tools and other workers in your local area
-### View and manage your current loans
+- #### Register tools you own and make them available to other users for checkout 
+- #### Search tools and other workers in your local area
+- #### View and manage your current loans
 
 ## Upcoming Features in Version 3:
 - option to view results in a List view or Map view
