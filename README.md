@@ -1,4 +1,4 @@
-# CURRENTLY UNDER RECONSTRUCTION
+# CURRENTLY UNDERGOING RECONSTRUCTION
 
 Version 2 was originally slated to include several feature upgrades and additions. However, recurring issues with certain dependencies continued to derail those efforts. Now, after some fiddling, testing, and weighing of options, I've decided to alter the course. 
 
@@ -8,13 +8,13 @@ c.f. other existing branches, especially `master`, to review previous iterations
 
 Cheers!
 
-## Means of Production ----- a community-sourced tool library for those who want to get things done
+# Means of Production ----- a community-sourced tool library for those who want to get things done
 
-Register tools you own and make them available to other users for checkout 
+    - ####Register tools you own and make them available to other users for checkout 
 
-Search tools and other workers in your local area
+    - ####Search tools and other workers in your local area
 
-View and manage your current loans
+    - ####View and manage your current loans
 
 ### Upcoming Features in Version 3:
     -option to view results in a List view or Map view
